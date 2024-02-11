@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
-import { signOut } from "../api-client";
 import SignOutButton from "./SignOutButton";
 
 const Header = () => {
