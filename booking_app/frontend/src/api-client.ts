@@ -16,6 +16,7 @@ export const register = async (formData: RegisterFormData) => {
   const responseBody = await response.json();
 
   if (!response.ok) {
+    console.log("API_BASE_URL:", API_BASE_URL);
     throw new Error(responseBody.message);
   }
 };
