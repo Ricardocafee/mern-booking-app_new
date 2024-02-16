@@ -8,10 +8,12 @@ import {
 import Layout from "./layouts/Layout"
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
+import AddProperty from "./pages/AddProperty";
+import { useAppContext } from "./contexts/AppContext";
 
 
 const App = () => {
-
+ const {isLoggedIn} = useAppContext();
   return (
     <Router>
       <Routes>
@@ -23,6 +25,18 @@ const App = () => {
           <Register/>
         </Layout>}/>
         <Route path="/sign-in" element={<Layout> <SignIn/> </Layout>}/>
+
+        {isLoggedIn && (
+        <>
+        <Route path="/add-property"
+         element={
+          <Layout>
+            <AddProperty />
+          </Layout>
+        } 
+        />
+        </>
+        )}
         <Route path="*" element={<Navigate to="/" />}/>
       </Routes>
     </Router>

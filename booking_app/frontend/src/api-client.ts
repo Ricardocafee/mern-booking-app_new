@@ -61,3 +61,17 @@ export const register = async (formData: RegisterFormData) => {
       throw new Error("Error during sign out");
     }
   }
+
+  export const addMyProperty = async (PropertyFormData: FormData)=>{
+    const response = await fetch (`${API_BASE_URL}/api/my-properties`, {
+      method: "POST",
+      credentials: "include",
+      body: PropertyFormData,
+    });
+
+    if(!response.ok){
+      throw new Error("Failed to add property");
+    }
+
+    return response.json();
+  }
