@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
 import AddProperty from "./pages/AddProperty";
 import { useAppContext } from "./contexts/AppContext";
+import MyProperties from "./pages/MyProperties";
 
 
 const App = () => {
@@ -32,6 +33,13 @@ const App = () => {
          element={
           <Layout>
             <AddProperty />
+          </Layout>
+        } 
+        />
+        <Route path="/my-properties"
+         element={
+          <Layout>
+            <MyProperties />
           </Layout>
         } 
         />

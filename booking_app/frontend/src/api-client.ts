@@ -1,5 +1,6 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
+import { PropertyType } from '../../backend/src/shared/types'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -75,3 +76,15 @@ export const register = async (formData: RegisterFormData) => {
 
     return response.json();
   }
+
+  export const fetchMyProperties = async (): Promise<PropertyType[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/my-properties`, {
+      credentials: "include"
+    });
+
+    if(!response.ok){
+      throw new Error("Error fetching properties");
+    }
+
+    return response.json();
+  };

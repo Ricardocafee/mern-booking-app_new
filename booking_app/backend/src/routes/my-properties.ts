@@ -1,8 +1,8 @@
 import express, { Request, Response} from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
-import Property, { PropertyType } from "../models/property";
-import { verify } from "crypto";
+import Property from "../models/property";
+import { PropertyType } from "../shared/types";
 import verifyToken from "../middleware/auth";
 import { body } from "express-validator";
 
@@ -65,5 +65,16 @@ router.post(
         }
     }
 );
+
+router.get("/", verifyToken, async(req: Request, res:Response)=>{
+
+    try{
+        const properties = await Property.find({userId: req.userId})
+        res.json(properties);
+
+    } catch(error) {
+        res.status(500).json({ message: "Error fetching properties"})
+    }
+})
 
 export default router;
