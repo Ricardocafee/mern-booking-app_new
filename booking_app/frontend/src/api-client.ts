@@ -88,3 +88,28 @@ export const register = async (formData: RegisterFormData) => {
 
     return response.json();
   };
+
+  export const fetchMyPropertyById = async (propertyId: string): Promise<PropertyType>=>{
+    const response = await fetch(`${API_BASE_URL}/api/my-properties/${propertyId}`, {
+      credentials: "include"
+    })
+    if (!response.ok){
+      throw new Error("Error fetching properties");
+    }
+
+    return response.json();
+  };
+
+  export const updateMyPropertyById = async (propertyFormData: FormData)=>{
+    const response = await fetch(`${API_BASE_URL}/api/my-properties/${propertyFormData.get("propertyId")}`, {
+      method: "PUT",
+      body: propertyFormData,
+      credentials: "include",
+    });
+
+  if(!response.ok) {
+    throw new Error ("Failed to update Property");
+  }
+
+  return response.json();
+  };

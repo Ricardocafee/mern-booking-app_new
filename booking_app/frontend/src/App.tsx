@@ -11,6 +11,7 @@ import SignIn from "./pages/SignIn";
 import AddProperty from "./pages/AddProperty";
 import { useAppContext } from "./contexts/AppContext";
 import MyProperties from "./pages/MyProperties";
+import EditProperty from "./pages/EditProperty";
 
 
 const App = () => {
@@ -33,6 +34,13 @@ const App = () => {
          element={
           <Layout>
             <AddProperty />
+          </Layout>
+        } 
+        />
+        <Route path="/edit-property/:propertyId"
+         element={
+          <Layout>
+            <EditProperty />
           </Layout>
         } 
         />
