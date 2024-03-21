@@ -13,6 +13,7 @@ import { useAppContext } from "./contexts/AppContext";
 import MyProperties from "./pages/MyProperties";
 import EditProperty from "./pages/EditProperty";
 import Search from "./pages/Search";
+import Detail from "./pages/Detail";
 
 
 const App = () => {
@@ -22,7 +23,20 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout><p>Homepage</p></Layout>}/>
         <Route path="/search" 
-        element={<Layout><Search/></Layout>}/>
+        element={
+            <Layout>
+              <Search/>
+            </Layout>
+          }
+        />
+
+        <Route path="/detail/:propertyId" 
+        element={
+            <Layout>
+              <Detail/>
+            </Layout>
+          }
+        />
 
         <Route path="/register" element={
         <Layout>
