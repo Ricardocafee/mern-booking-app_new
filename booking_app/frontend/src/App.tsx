@@ -12,6 +12,7 @@ import AddProperty from "./pages/AddProperty";
 import { useAppContext } from "./contexts/AppContext";
 import MyProperties from "./pages/MyProperties";
 import EditProperty from "./pages/EditProperty";
+import Search from "./pages/Search";
 
 
 const App = () => {
@@ -20,7 +21,8 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Layout><p>Homepage</p></Layout>}/>
-        <Route path="/search" element={<Layout><p>Search Page</p></Layout>}/>
+        <Route path="/search" 
+        element={<Layout><Search/></Layout>}/>
 
         <Route path="/register" element={
         <Layout>

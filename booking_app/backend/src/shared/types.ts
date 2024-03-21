@@ -14,3 +14,12 @@ export type PropertyType = {
     imageUrls: string[];
     lastUpdated: Date;
 }
+
+export type PropertySearchResponse = {
+    data: PropertyType[];
+    pagination: {
+        total: number;
+        page: number;
+        pages: number;
+    }
+}
