@@ -54,6 +54,16 @@ router.get("/search", async (req:Request, res:Response)=>{
     }
 });
 
+router.get("/", async (req: Request, res: Response)=>{
+  try {
+    const properties = await Property.find().sort("-lastUpdated")
+    res.json(properties);
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Error fetching hotels" });
+  }
+});
+
 router.get("/:id", [
   param("id").notEmpty().withMessage("Property ID is required")
 ], async(req: Request, res: Response)=>{
