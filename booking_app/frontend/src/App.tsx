@@ -15,6 +15,7 @@ import EditProperty from "./pages/EditProperty";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
 import Booking from "./pages/Booking";
+import MyBookings from "./pages/MyBookings";
 
 
 const App = () => {
@@ -74,6 +75,14 @@ const App = () => {
          element={
           <Layout>
             <MyProperties />
+          </Layout>
+        } 
+        />
+
+        <Route path="/my-bookings"
+         element={
+          <Layout>
+            <MyBookings />
           </Layout>
         } 
         />
