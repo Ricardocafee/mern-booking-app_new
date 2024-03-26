@@ -1,7 +1,11 @@
 import express, { Request, Response } from "express"
 import Property from "../models/property";
-import { PropertySearchResponse } from "../shared/types";
+import { BookingType, PropertySearchResponse } from "../shared/types";
 import { param, validationResult } from "express-validator";
+import Stripe from "stripe";
+import verifyToken from "../middleware/auth";
+
+const stripe = new Stripe(process.env.STRIPE_API_KEY as string);
 
 const router = express.Router();
 
@@ -69,7 +73,84 @@ router.get("/:id", [
   }
 });
 
+router.post("/:propertyId/bookings/payment-intent", verifyToken, async(req: Request, res: Response)=>{
+
+  const { numberOfNights } = req.body;
+  const propertyId = req.params.propertyId;
+
+  const property = await Property.findById(propertyId);
+  if (!property) {
+    return res.status(400).json({ message: "Property not found" });
+  }
+
+  const totalCost = property.pricePerNight * numberOfNights; 
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: totalCost * 100,
+    currency: "eur",
+    metadata: {
+      propertyId,
+      userId: req.userId,
+    },
+  });
+
+  if(!paymentIntent.client_secret) {
+    return res.status(500).json({message: "Error creating payment intent"});
+  }
+
+  const response = {
+    paymentIntentId: paymentIntent.id,
+    clientSecret: paymentIntent.client_secret.toString(),
+    totalCost,
+  };
+
+  res.send(response);
+});
+
 export default router
+
+router.post("/:propertyId/bookings", verifyToken, async (req: Request, res: Response) => {
+  try {
+    const paymentIntentId = req.body.paymentIntentId;
+
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      paymentIntentId as string
+    );
+
+    if(!paymentIntent) {
+      return res.status(400).json({ message: "something went wrong" });
+    }
+
+    if(paymentIntent.metadata.propertyId !== req.params.propertyId  ||
+      paymentIntent.metadata.userId !== req.userId) {
+        return res.status(400).json({ message: "payment intent mismatch" });
+      }
+
+    if(paymentIntent.status !== "succeeded"){
+      return res.status(400).json({message: `payment intent not succeeded. Status: ${paymentIntent.status}`});
+    }
+
+    const newBooking: BookingType = {
+      ...req.body, userId: req.userId,
+    };
+
+    const property = await Property.findOneAndUpdate({_id: req.params.propertyId}, {
+      $push: { bookings: newBooking },
+    });
+
+    if(!property) {
+      return res.status(400).json({ message: "property not found" });
+    }
+
+    await property.save();
+    res.status(200).send();
+
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
+})
 
 function constructSearchQuery(queryParams: any) {
     let constructedQuery: any = {};

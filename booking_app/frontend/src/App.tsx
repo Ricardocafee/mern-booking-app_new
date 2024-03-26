@@ -14,6 +14,7 @@ import MyProperties from "./pages/MyProperties";
 import EditProperty from "./pages/EditProperty";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
+import Booking from "./pages/Booking";
 
 
 const App = () => {
@@ -46,6 +47,15 @@ const App = () => {
 
         {isLoggedIn && (
         <>
+
+        <Route path="/property/:propertyId/booking"
+         element={
+          <Layout>
+            <Booking />
+          </Layout>
+        } 
+        />
+
         <Route path="/add-property"
          element={
           <Layout>

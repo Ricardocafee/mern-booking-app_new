@@ -1,14 +1,7 @@
 import mongoose, { Document } from "mongoose";
 import bcrypt from "bcryptjs";
+import { UserType } from "../shared/types";
 
-export type UserType = {
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-};
-
-interface UserDocument extends Document, UserType {}
 
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
@@ -17,7 +10,7 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
 });
 
-userSchema.pre<UserDocument>("save", async function (next) {
+userSchema.pre("save", async function (next) {
     if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 8);
     }
