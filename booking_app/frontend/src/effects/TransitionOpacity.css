@@ -1,0 +1,29 @@
+.transition-right {
+    animation: fadeinRight 0.3s ease-in-out;
+  }
+  
+  .transition-left {
+    animation: fadeinLeft 0.3s ease-in-out;
+  }
+
+  
+  
+  @keyframes fadeinRight {
+    0% {
+      transform: translateX(300px);
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeinLeft {
+    0% {
+      transform: translateX(-300px);
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

@@ -6,11 +6,13 @@ import GuestsSection from "./GuestsSection";
 import ImageSection from "./ImagesSection";
 import { PropertyType } from "../../../../backend/src/shared/types";
 import { useEffect } from "react";
+import MapSection from "./MapSection";
 
 export type PropertyFormData = {
     name: string;
     city: string;
     country: string;
+    street: string;
     description: string;
     type: string;
     pricePerNight: number;
@@ -20,6 +22,8 @@ export type PropertyFormData = {
     imageUrls: string[];
     adultCount: number;
     childCount: number;
+    latitude: number;
+    longitude: number;
 };
 
 type Props = {
@@ -46,12 +50,15 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("name", formDataJson.name);
         formData.append("city", formDataJson.city);
         formData.append("country", formDataJson.country);
+        formData.append("street", formDataJson.street);
         formData.append("description", formDataJson.description);
         formData.append("type", formDataJson.type);
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
         formData.append("starRating", formDataJson.starRating.toString());
         formData.append("adultCount", formDataJson.adultCount.toString());
         formData.append("childCount", formDataJson.childCount.toString());
+        formData.append("latitude", formDataJson.latitude.toString());
+        formData.append("longitude", formDataJson.longitude.toString());
 
         formDataJson.facilities.forEach((facility, index)=>{
             formData.append(`facilities[${index}]`, facility)
@@ -79,6 +86,7 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
             <FacilitiesSection/>
             <GuestsSection/>
             <ImageSection/>
+            <MapSection/>
             <span className="flex justify-end">
                 <button
                 disabled={isLoading}

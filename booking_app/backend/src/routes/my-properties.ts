@@ -24,7 +24,10 @@ router.post(
         body("name").notEmpty().withMessage('Name is required'),
         body("city").notEmpty().withMessage('City is required'),
         body("country").notEmpty().withMessage('Country is required'),
+        body("street").notEmpty().withMessage('Street is required'),
         body("description").notEmpty().withMessage('Description is required'),
+        body("latitude").notEmpty().withMessage('Latitude is required'),
+        body("longitude").notEmpty().withMessage('Longitude is required'),
         body("type").notEmpty().withMessage('Property type is required'),
         body("pricePerNight")
         .notEmpty()

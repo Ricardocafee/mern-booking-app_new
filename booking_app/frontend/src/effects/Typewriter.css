@@ -1,0 +1,8 @@
+.typewriter-text {
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Adjust the duration and easing as needed */
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }

@@ -25,4 +25,13 @@ export const propertyTypes = [
     "Outdoor Pool",
     "Spa",
     "Fitness Center",
+    "Air Conditioning",
+    "Laundry",
+    "Refrigerator",
+    "Washer",
+    "Barbeque",
+    "Lawn",
+    "Dryer",
+    "Microwave",
+    "TV Cable",
   ];

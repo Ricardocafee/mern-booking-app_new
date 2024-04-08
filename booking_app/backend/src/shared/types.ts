@@ -12,6 +12,7 @@ export type PropertyType = {
     name: string;
     city: string;
     country: string;
+    street: string;
     description: string;
     type: string;
     adultCount: number;
@@ -20,6 +21,8 @@ export type PropertyType = {
     pricePerNight: number;
     starRating: number;
     imageUrls: string[];
+    latitude: number;
+    longitude: number;
     lastUpdated: Date;
     bookings: BookingType[];
 };

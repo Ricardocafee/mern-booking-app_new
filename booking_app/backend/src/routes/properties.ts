@@ -169,6 +169,7 @@ function constructSearchQuery(queryParams: any) {
       constructedQuery.$or = [
         { city: new RegExp(queryParams.destination, "i") },
         { country: new RegExp(queryParams.destination, "i") },
+        { street: new RegExp(queryParams.destination, "i") },
       ];
     }
   
@@ -189,6 +190,18 @@ function constructSearchQuery(queryParams: any) {
         $all: Array.isArray(queryParams.facilities)
           ? queryParams.facilities
           : [queryParams.facilities],
+      };
+    }
+
+    if (queryParams.latitude) {
+      constructedQuery.latitude = {
+        $gte: parseInt(queryParams.latitude),
+      };
+    }
+
+    if (queryParams.longitude) {
+      constructedQuery.longitude = {
+        $gte: parseInt(queryParams.longitude),
       };
     }
   

@@ -18,6 +18,7 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     name: { type: String, required: true },
     city: { type: String, required: true },
     country: { type: String, required: true },
+    street: { type: String, required: true },
     description: { type: String, required: true },
     type: { type: String, required: true },
     adultCount: { type: Number, required: true },
@@ -26,6 +27,8 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     pricePerNight: { type: Number, required: true },
     starRating: { type: Number, required: true },
     imageUrls: [{ type: String, required: true },],
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true },
     lastUpdated: { type: Date, required: true },
     bookings: [bookingSchema],
 });
