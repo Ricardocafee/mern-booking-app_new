@@ -1,20 +1,50 @@
+import { useState, useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+import MapDisplay from '../../components/MapDisplay';
+import { PropertyFormData } from './ManagePropertyForm';
 
-import MapDisplay from "../../components/MapDisplay";
+interface Location {
+    lat: number;
+    lng: number;
+}
 
 const MapSection = () => {
+    const { watch } = useFormContext<PropertyFormData>();
+
+    const LatitudeValue = watch('latitude');
+    const LongitudeValue = watch('longitude');
 
     // State variables to hold selected latitude and longitude
+    const [defaultLocation, setDefaultLocation] = useState<Location | null>(null);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (LatitudeValue !== undefined && LongitudeValue !== undefined) {
+                setDefaultLocation({
+                    lat: LatitudeValue,
+                    lng: LongitudeValue
+                });
+            } else {
+                setDefaultLocation({
+                    lat: 37.08,
+                    lng: -8.25
+                });
+            }
+        }, 100);
+
+        return () => clearTimeout(timer);
+    }, [LatitudeValue, LongitudeValue]);
 
     const apiKey = 'AIzaSyBG0qUTBcs3wxiJwvEEe5hKa7QEYYkPd2Y';
-    const defaultLocation = { lat: 0, lng: 0 }; // Default location example
 
-   
     return (
         <div>
             <h2 className="text-2xl font-bold mb-3">Map Location</h2>
-            
-            <MapDisplay apiKey={apiKey} defaultLocation={defaultLocation} />
-            
+            {defaultLocation !== null ? (
+                <MapDisplay apiKey={apiKey} defaultLocation={defaultLocation} />
+            ) : (
+                <p>Loading...</p>
+            )}
         </div>
     );
 };

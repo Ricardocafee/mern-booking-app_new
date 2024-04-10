@@ -167,6 +167,8 @@ export const register = async (formData: RegisterFormData) => {
     return response.json();
   };
 
+  
+
   export const fetchProperties = async (): Promise<PropertyType[]> => {
     const response = await fetch(`${API_BASE_URL}/api/properties`);
 
