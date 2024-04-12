@@ -6,8 +6,12 @@ import SearchResultsCard from "../components/SearchResultsCard";
 import Pagination from "../components/Pagination";
 import StarRatingFilter from "../components/StarRatingFilter";
 import PropertyTypesFilter from "../components/PropertyTypesFilter";
-import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
+
+export type TypeFacilities = {
+    type: string;
+    facilities: string[];
+};
 
 const Search = () => {
     const search = useSearchContext();
@@ -16,7 +20,6 @@ const Search = () => {
 
     const [selectedStars, setSelectedStars] = useState<string[]>([]);
     const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
-    const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
     const [selectedPrice, setSelectedPrice] = useState<number | undefined>();
     const [sortOption, setSortOption] = useState<string>("");
 
@@ -29,7 +32,6 @@ const Search = () => {
         page: page.toString(),
         stars: selectedStars,
         types: selectedPropertyTypes,
-        facilities: selectedFacilities,
         maxPrice: selectedPrice?.toString(),
         sortOption,
     };
@@ -58,15 +60,6 @@ const Search = () => {
         );
     };
 
-    const handleFacilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const facility = event.target.value;
-
-        setSelectedFacilities((prevFacilities)=>
-            event.target.checked
-              ? [...prevFacilities, facility]
-              : prevFacilities.filter((prevFacility)=> prevFacility !== facility)
-        );
-    };
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
@@ -81,9 +74,6 @@ const Search = () => {
                     <PropertyTypesFilter 
                     selectedPropertyTypes={selectedPropertyTypes} 
                     onChange={handlePropertyTypesChange}/>
-                    <FacilitiesFilter 
-                    selectedFacilities={selectedFacilities} 
-                    onChange={handleFacilityChange}/>
                     <PriceFilter 
                     selectedPrice={selectedPrice}
                     onChange={(value?:number)=> setSelectedPrice(value)}
