@@ -125,6 +125,16 @@ export const register = async (formData: RegisterFormData) => {
   return response.json();
   };
 
+  export type RoomSchema = {
+    type: string;
+    counter: number;
+  };
+
+  export type TypeFacilities = {
+    type: string;
+    facilities: string[];
+  };
+
   export type SearchParams = {
     destination?: string;
     checkIn?: string;
@@ -132,8 +142,9 @@ export const register = async (formData: RegisterFormData) => {
     adultCount?: string;
     childCount?: string;
     page?: string;
-    facilities?: string[];
+    facilities?: TypeFacilities[];
     types?: string[];
+    roomsCounter?: RoomSchema[];
     stars?: string[];
     maxPrice?: string;
     sortOption?: string;
@@ -152,9 +163,19 @@ export const register = async (formData: RegisterFormData) => {
     queryParams.append("maxPrice", searchParams.maxPrice || "");
     queryParams.append("sortOption", searchParams.sortOption || "");
 
-    searchParams.facilities?.forEach((facility)=> queryParams.append("facilities", facility));
+    searchParams.facilities?.forEach((facilityType) => {
+      queryParams.append("facilities.type", facilityType.type);
+      facilityType.facilities?.forEach((facility) => {
+        queryParams.append("facilities.facility", facility);
+      });
+    });
 
     searchParams.types?.forEach((type)=> queryParams.append("types", type));
+
+    searchParams.roomsCounter?.forEach((room) => {
+      queryParams.append("roomsCounter.type", room.type);
+      queryParams.append("roomsCounter.counter", room.counter.toString());
+    });
 
     searchParams.stars?.forEach((star)=> queryParams.append("stars", star));
 

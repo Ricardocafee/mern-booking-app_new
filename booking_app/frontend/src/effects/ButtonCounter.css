@@ -1,0 +1,17 @@
+.circle-plus {
+    width: 40px;
+    height: 40px;
+    color: #404854;
+    transition: color 0.3s ease; /* Adding transition for smooth effect */
+  }
+
+  .circle-plus:hover {
+    color: black;
+  }
+
+  .circle-minus-disabled {
+    width: 40px;
+    height: 40px;
+    color: #c0c0c0; /* Very light grey color */
+    transition: color 0.3s ease; 
+  }

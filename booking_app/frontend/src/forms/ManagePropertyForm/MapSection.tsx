@@ -9,7 +9,7 @@ interface Location {
 }
 
 const MapSection = () => {
-    const { watch } = useFormContext<PropertyFormData>();
+    const { watch, setValue } = useFormContext<PropertyFormData>();
 
     const LatitudeValue = watch('latitude');
     const LongitudeValue = watch('longitude');
@@ -29,8 +29,10 @@ const MapSection = () => {
                     lat: 37.08,
                     lng: -8.25
                 });
+                setValue("latitude", 37.08);
+                setValue("longitude", -8.25);
             }
-        }, 100);
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, [LatitudeValue, LongitudeValue]);

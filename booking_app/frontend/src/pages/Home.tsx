@@ -11,7 +11,7 @@ const Home = () => {
     const { data: properties } = useQuery("fetchQuery", () => apiClient.fetchProperties());
 
     const topRowProperties = properties?.slice(0, 2) || [];
-    const bottomRowProperties = properties?.slice(2) || [];
+    const bottomRowProperties = properties?.slice(2, 5) || [];
 
     return (
         <div className="space-y-3">
@@ -34,13 +34,17 @@ const Home = () => {
                         <div className="border-r border-gray-400 pr-2 flex items-center">
                             <IoBed className="mr-3" style={{ fontSize: "22px" }}/>
                             <div className="mr-1 text-gray-600">
-                                4 Bedrooms
+                            {property.roomsCounter.find(room => room.type === "Bedrooms")?.counter}
+                            {" "}
+                            Bedroom{property.roomsCounter.find(room => room.type === "Bedrooms")?.counter === 1 ? "" : "s"}
                             </div>
                         </div>
                         <div className="flex border-r border-gray-400 pr-2 items-center">
                             <FaShower className="mr-3 ml-2" style={{ fontSize: "22px" }}/>
                             <div className="mr-1 text-gray-600">
-                                2 Bathrooms
+                            {property.roomsCounter.find(room => room.type === "Bathrooms")?.counter}
+                            {" "}
+                            Bathroom{property.roomsCounter.find(room => room.type === "Bathrooms")?.counter === 1 ? "" : "s"}
                             </div>
                         </div>
                         <div className="flex pr-2 items-center">
@@ -75,13 +79,13 @@ const Home = () => {
                         <div className="border-r border-gray-400 pr-2 flex items-center">
                             <IoBed className="mr-3" style={{ fontSize: "22px" }}/>
                             <div className="mr-1 text-gray-600">
-                                4 
+                            {property.roomsCounter.find(room => room.type === "Bedrooms")?.counter}
                             </div>
                         </div>
                         <div className="flex border-r border-gray-400 pr-2 items-center">
                             <FaShower className="mr-3 ml-2" style={{ fontSize: "22px" }}/>
                             <div className="mr-1 text-gray-600">
-                                2 
+                            {property.roomsCounter.find(room => room.type === "Bathrooms")?.counter} 
                             </div>
                         </div>
                         <div className="flex pr-2 items-center">

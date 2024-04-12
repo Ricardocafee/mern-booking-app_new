@@ -10,7 +10,7 @@ const DetailsSection = () => {
         <div className="flex flex-col gap-4">
             <h1 className="text-3xl font-bold mb-3">Add Property</h1>
             <label className="text-gray-700 text-sm font-bold flex-1">
-                    Name
+                    Title
                     <input
                     type="text" 
                     className="border rounded w-full py-1 px-2 font-normal"
@@ -61,6 +61,32 @@ const DetailsSection = () => {
                     {errors.street && (
                         <span className="text-red-500">
                             {errors.street.message}
+                        </span>
+                    )}
+                </label>
+                <label className="text-gray-700 text-sm font-bold flex-1">
+                    Description of the neighbourhood
+                    <input
+                    type="text" 
+                    className="border rounded w-full py-1 px-2 font-normal"
+                    {...register("neighbourhoodDescription", { required: "This field is required" })}
+                    ></input>
+                    {errors.neighbourhoodDescription && (
+                        <span className="text-red-500">
+                            {errors.neighbourhoodDescription.message}
+                        </span>
+                    )}
+                </label>
+                <label className="text-gray-700 text-sm font-bold flex-1">
+                    Means of transport
+                    <input
+                    type="text" 
+                    className="border rounded w-full py-1 px-2 font-normal"
+                    {...register("transport", { required: "This field is required" })}
+                    ></input>
+                    {errors.transport && (
+                        <span className="text-red-500">
+                            {errors.transport.message}
                         </span>
                     )}
                 </label>

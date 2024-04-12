@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 import { BookingType, PropertyType } from "../shared/types";
 
+const roomsSchema = new mongoose.Schema({
+    type: { type: String, required: true }, // e.g., "Bedroom", "Bathroom", etc.
+    counter: { type: Number, required: true }, // Number of rooms of this type
+});
+
+const typeFacilities = new mongoose.Schema({
+    type: { type: String, required: true }, 
+    facilities: [{ type: String}], 
+});
+
 const bookingSchema = new mongoose.Schema<BookingType>({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
@@ -19,11 +29,14 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     city: { type: String, required: true },
     country: { type: String, required: true },
     street: { type: String, required: true },
+    neighbourhoodDescription: { type: String, required: true},
+    transport: { type: String, required: true},
     description: { type: String, required: true },
     type: { type: String, required: true },
+    roomsCounter: [roomsSchema],
     adultCount: { type: Number, required: true },
     childCount: { type: Number, required: true },
-    facilities: [{ type: String, required: true }],
+    facilities: [typeFacilities],
     pricePerNight: { type: Number, required: true },
     starRating: { type: Number, required: true },
     imageUrls: [{ type: String, required: true },],

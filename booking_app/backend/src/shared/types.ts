@@ -13,11 +13,14 @@ export type PropertyType = {
     city: string;
     country: string;
     street: string;
+    neighbourhoodDescription: string;
+    transport: string;
     description: string;
     type: string;
+    roomsCounter: RoomSchema[];
     adultCount: number;
     childCount: number;
-    facilities: string[];
+    facilities: TypeFacilities[];
     pricePerNight: number;
     starRating: number;
     imageUrls: string[];
@@ -25,6 +28,16 @@ export type PropertyType = {
     longitude: number;
     lastUpdated: Date;
     bookings: BookingType[];
+};
+
+export type TypeFacilities = {
+    type: string;
+    facilities: string[];
+};
+
+export type RoomSchema = {
+    type: string;
+    counter: number;
 };
 
 export type BookingType = {

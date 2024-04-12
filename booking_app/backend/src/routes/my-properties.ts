@@ -26,6 +26,8 @@ router.post(
         body("country").notEmpty().withMessage('Country is required'),
         body("street").notEmpty().withMessage('Street is required'),
         body("description").notEmpty().withMessage('Description is required'),
+        body("neighbourhoodDescription").notEmpty().withMessage('Description of the neighbourhood is required'),
+        body("transport").notEmpty().withMessage('Means of transport is required'),
         body("latitude").notEmpty().withMessage('Latitude is required'),
         body("longitude").notEmpty().withMessage('Longitude is required'),
         body("type").notEmpty().withMessage('Property type is required'),
@@ -33,10 +35,14 @@ router.post(
         .notEmpty()
         .isNumeric()
         .withMessage('Price per night is required and must be a number'),
-        body("type")
+        body("facilities")
         .notEmpty()
         .isArray()
         .withMessage('Facilities are required'),
+        body("roomsCounter")
+        .notEmpty()
+        .isArray()
+        .withMessage('Rooms counters are required'),
     ],
     upload.array("imageFiles", 6),
      async (req: Request, res: Response) => {

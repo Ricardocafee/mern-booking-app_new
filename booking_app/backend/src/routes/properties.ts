@@ -170,6 +170,8 @@ function constructSearchQuery(queryParams: any) {
         { city: new RegExp(queryParams.destination, "i") },
         { country: new RegExp(queryParams.destination, "i") },
         { street: new RegExp(queryParams.destination, "i") },
+        { neighbourhoodDescription: new RegExp(queryParams.destination, "i") },
+        { transport: new RegExp(queryParams.destination, "i")},
       ];
     }
   
@@ -190,6 +192,14 @@ function constructSearchQuery(queryParams: any) {
         $all: Array.isArray(queryParams.facilities)
           ? queryParams.facilities
           : [queryParams.facilities],
+      };
+    }
+
+    if (queryParams.roomsCounter) {
+      constructedQuery.roomsCounter = {
+        $all: Array.isArray(queryParams.roomsCounter)
+          ? queryParams.roomsCounter
+          : [queryParams.roomsCounter],
       };
     }
 

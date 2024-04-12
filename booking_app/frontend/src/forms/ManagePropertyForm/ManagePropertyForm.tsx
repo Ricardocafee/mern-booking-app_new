@@ -7,6 +7,17 @@ import ImageSection from "./ImagesSection";
 import { PropertyType } from "../../../../backend/src/shared/types";
 import { useEffect } from "react";
 import MapSection from "./MapSection";
+import RoomsSection from "./RoomsSection";
+
+export type RoomSchema = {
+    type: string;
+    counter: number;
+};
+
+export type TypeFacilities = {
+    type: string;
+    facilities: string[];
+};
 
 export type PropertyFormData = {
     name: string;
@@ -14,9 +25,12 @@ export type PropertyFormData = {
     country: string;
     street: string;
     description: string;
+    transport: string;
+    neighbourhoodDescription: string;
     type: string;
+    roomsCounter: RoomSchema[];
     pricePerNight: number;
-    facilities: string[];
+    facilities: TypeFacilities[];
     starRating: number;
     imageFiles: FileList;
     imageUrls: string[];
@@ -51,6 +65,8 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("city", formDataJson.city);
         formData.append("country", formDataJson.country);
         formData.append("street", formDataJson.street);
+        formData.append("neighbourhoodDescription", formDataJson.neighbourhoodDescription);
+        formData.append("transport", formDataJson.transport);
         formData.append("description", formDataJson.description);
         formData.append("type", formDataJson.type);
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
@@ -60,8 +76,17 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("latitude", formDataJson.latitude.toString());
         formData.append("longitude", formDataJson.longitude.toString());
 
-        formDataJson.facilities.forEach((facility, index)=>{
-            formData.append(`facilities[${index}]`, facility)
+        formDataJson.facilities.forEach((facilityType, index)=>{
+            formData.append(`facilities[${index}][type]`, facilityType.type);
+            facilityType.facilities.forEach((facility, idx)=>{
+                formData.append(`facilities[${index}][facilities][${idx}]`, facility);
+            })
+        });
+
+
+        formDataJson.roomsCounter.forEach((room, index) => {
+            formData.append(`roomsCounter[${index}][counter]`, room.counter.toString());
+            formData.append(`roomsCounter[${index}][type]`, room.type);
         });
 
         // []
@@ -83,6 +108,7 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         <form className="flex flex-col gap-10" onSubmit={onSubmit}>
             <DetailsSection/>
             <TypeSection/>
+            <RoomsSection/>
             <FacilitiesSection/>
             <GuestsSection/>
             <ImageSection/>
