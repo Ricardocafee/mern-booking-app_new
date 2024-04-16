@@ -11,6 +11,15 @@ const typeFacilities = new mongoose.Schema({
     facilities: [{ type: String}], 
 });
 
+const Type = new mongoose.Schema({
+    spaceType: {type: String, required: true},
+    propertyType: {type: String, required: true},
+    adType: {type: String},
+    counterFloors: {type: Number},
+    numberFloor: {type: Number},
+    propertySize: {type: Number},
+})
+
 const bookingSchema = new mongoose.Schema<BookingType>({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
@@ -32,7 +41,7 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     neighbourhoodDescription: { type: String, required: true},
     transport: { type: String, required: true},
     description: { type: String, required: true },
-    type: { type: String, required: true },
+    type: Type,
     roomsCounter: [roomsSchema],
     adultCount: { type: Number, required: true },
     childCount: { type: Number, required: true },

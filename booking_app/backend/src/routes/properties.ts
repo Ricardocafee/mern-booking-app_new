@@ -215,13 +215,38 @@ function constructSearchQuery(queryParams: any) {
       };
     }
   
-    if (queryParams.types) {
-      constructedQuery.type = {
-        $in: Array.isArray(queryParams.types)
-          ? queryParams.types
-          : [queryParams.types],
-      };
+    if (queryParams.type) {
+
+      if(queryParams.type.spaceType) {
+        constructedQuery.type.spaceType = queryParams.type.spaceType;
+      }
+
+      if(queryParams.type.propertyType) {
+        constructedQuery.type.propertyType = queryParams.type.propertyType;
+      }
+
+      if(queryParams.type.adType) {
+        constructedQuery.type.adType = queryParams.type.adType;
+      }
+
+      if(queryParams.type.numberFloor) {
+        constructedQuery.type.numberFloor = {
+          $gte: parseInt(queryParams.type.numberFloor),
+        };
+      }
+
+      if(queryParams.type.counterFloors) {
+        constructedQuery.type.counterFloors = {
+          $gte: parseInt(queryParams.type.counterFloors),
+        };
+      }
+      if(queryParams.type.propertySize) {
+        constructedQuery.type.propertySize = {
+          $gte: parseInt(queryParams.type.propertySize),
+        };
+      }
     }
+    
   
     if (queryParams.stars) {
       const starRatings = Array.isArray(queryParams.stars)

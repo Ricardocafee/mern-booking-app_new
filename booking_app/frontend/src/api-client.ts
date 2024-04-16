@@ -135,6 +135,15 @@ export const register = async (formData: RegisterFormData) => {
     facilities: string[];
   };
 
+  export type Type = {
+    spaceType: string;
+    propertyType: string;
+    adType: string;
+    counterFloors: number;
+    numberFloor: number;
+    propertySize: number;
+  }
+
   export type SearchParams = {
     destination?: string;
     checkIn?: string;
@@ -143,7 +152,7 @@ export const register = async (formData: RegisterFormData) => {
     childCount?: string;
     page?: string;
     facilities?: TypeFacilities[];
-    types?: string[];
+    type?: Type;
     roomsCounter?: RoomSchema[];
     stars?: string[];
     maxPrice?: string;
@@ -163,14 +172,19 @@ export const register = async (formData: RegisterFormData) => {
     queryParams.append("maxPrice", searchParams.maxPrice || "");
     queryParams.append("sortOption", searchParams.sortOption || "");
 
+    queryParams.append("type.spaceType", searchParams.type?.spaceType || "");
+    queryParams.append("type.propertyType", searchParams.type?.propertyType || "");
+    queryParams.append("type.adType", searchParams.type?.adType || "");
+    queryParams.append("type.counterFloors", searchParams.type?.counterFloors.toString() || "");
+    queryParams.append("type.numberFloor", searchParams.type?.numberFloor.toString() || "");
+    queryParams.append("type.propertySize", searchParams.type?.propertySize.toString() || "");
+
     searchParams.facilities?.forEach((facilityType) => {
       queryParams.append("facilities.type", facilityType.type);
       facilityType.facilities?.forEach((facility) => {
         queryParams.append("facilities.facility", facility);
       });
     });
-
-    searchParams.types?.forEach((type)=> queryParams.append("types", type));
 
     searchParams.roomsCounter?.forEach((room) => {
       queryParams.append("roomsCounter.type", room.type);

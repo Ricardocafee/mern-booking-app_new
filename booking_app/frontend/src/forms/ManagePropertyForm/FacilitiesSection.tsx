@@ -88,7 +88,7 @@ const FacilitiesSection = () => {
         <div className="font-bold mb-2">{renderFacilityTypeLabel(facilityType)}</div>
         <div className="grid grid-cols-5 md:grid-cols-4 sm:grid-cols-4 xs:grid-cols-4 gap-3 rounded-md" style={{ border: '1px solid grey', padding: '10px' }}>
                 {facilitiesMap[facilityType].map((facility, idx) => (
-                        <label className="text-sm flex gap-1 text-gray-700">
+                        <label key={idx} className="text-sm flex gap-1 text-gray-700">
                         <input 
                         type="checkbox" 
                         value={facility} 

@@ -19,6 +19,15 @@ export type TypeFacilities = {
     facilities: string[];
 };
 
+export type Type = {
+    spaceType: string;
+    propertyType: string;
+    adType: string;
+    counterFloors: number;
+    numberFloor: number;
+    propertySize: number;
+}
+
 export type PropertyFormData = {
     name: string;
     city: string;
@@ -27,7 +36,7 @@ export type PropertyFormData = {
     description: string;
     transport: string;
     neighbourhoodDescription: string;
-    type: string;
+    type: Type;
     roomsCounter: RoomSchema[];
     pricePerNight: number;
     facilities: TypeFacilities[];
@@ -68,13 +77,20 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("neighbourhoodDescription", formDataJson.neighbourhoodDescription);
         formData.append("transport", formDataJson.transport);
         formData.append("description", formDataJson.description);
-        formData.append("type", formDataJson.type);
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
         formData.append("starRating", formDataJson.starRating.toString());
         formData.append("adultCount", formDataJson.adultCount.toString());
         formData.append("childCount", formDataJson.childCount.toString());
         formData.append("latitude", formDataJson.latitude.toString());
         formData.append("longitude", formDataJson.longitude.toString());
+
+        // Type Property
+        formData.append("type[spaceType]", formDataJson.type.spaceType);
+        formData.append("type[propertyType]", formDataJson.type.propertyType);
+        formData.append("type[adType]", formDataJson.type.adType);
+        formData.append("type[counterFloors]", formDataJson.type.counterFloors.toString());
+        formData.append("type[numberFloor]", formDataJson.type.numberFloor.toString());
+        formData.append("type[propertySize]", formDataJson.type.propertySize.toString());
 
         formDataJson.facilities.forEach((facilityType, index)=>{
             formData.append(`facilities[${index}][type]`, facilityType.type);

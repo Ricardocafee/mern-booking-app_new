@@ -30,7 +30,14 @@ router.post(
         body("transport").notEmpty().withMessage('Means of transport is required'),
         body("latitude").notEmpty().withMessage('Latitude is required'),
         body("longitude").notEmpty().withMessage('Longitude is required'),
-        body("type").notEmpty().withMessage('Property type is required'),
+
+        body("type.spaceType").notEmpty().withMessage("Space of Property is required"),
+        body("type.propertyType").notEmpty().withMessage("Type of Property is required"),
+        body("type.adType").notEmpty().withMessage("Type of ad is required"),
+        body("type.counterFloors").notEmpty().withMessage("Number of floors is required"),
+        body("type.numberFloor").notEmpty().withMessage("The number of the floor is required"),
+        body("type.propertySize").notEmpty().withMessage("Size of the property is required"),
+
         body("pricePerNight")
         .notEmpty()
         .isNumeric()

@@ -5,6 +5,15 @@ export type UserType = {
     lastName: string;
 };
 
+export type Type = {
+    spaceType: string;
+    propertyType: string;
+    adType: string;
+    counterFloors: number;
+    numberFloor: number;
+    propertySize: number;
+}
+
 
 export type PropertyType = {
     _id: string;
@@ -16,7 +25,7 @@ export type PropertyType = {
     neighbourhoodDescription: string;
     transport: string;
     description: string;
-    type: string;
+    type: Type;
     roomsCounter: RoomSchema[];
     adultCount: number;
     childCount: number;
