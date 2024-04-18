@@ -4,6 +4,7 @@ import TypeSection from "./TypeSection";
 import FacilitiesSection from "./FacilitiesSection";
 import GuestsSection from "./GuestsSection";
 import ImageSection from "./ImagesSection";
+import StateSection from "./StateSection";
 import { PropertyType } from "../../../../backend/src/shared/types";
 import { useEffect } from "react";
 import MapSection from "./MapSection";
@@ -34,6 +35,7 @@ export type PropertyFormData = {
     country: string;
     street: string;
     description: string;
+    state: string;
     transport: string;
     neighbourhoodDescription: string;
     type: Type;
@@ -77,6 +79,7 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("neighbourhoodDescription", formDataJson.neighbourhoodDescription);
         formData.append("transport", formDataJson.transport);
         formData.append("description", formDataJson.description);
+        formData.append("state", formDataJson.state);
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
         formData.append("starRating", formDataJson.starRating.toString());
         formData.append("adultCount", formDataJson.adultCount.toString());
@@ -123,6 +126,7 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         <FormProvider {...formMethods}>
         <form className="flex flex-col gap-10" onSubmit={onSubmit}>
             <DetailsSection/>
+            <StateSection/>
             <TypeSection/>
             <RoomsSection/>
             <FacilitiesSection/>

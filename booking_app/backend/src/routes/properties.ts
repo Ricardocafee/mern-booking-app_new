@@ -33,9 +33,12 @@ router.get("/search", async (req:Request, res:Response)=>{
 
         const skip = (pageNumber-1) * pageSize;
 
-        const properties = await Property.find(query).sort(sortOptions).skip(skip).limit(pageSize);
+        const properties = await Property.find({ ...query, state: "Available" })
+            .sort(sortOptions)
+            .skip(skip)
+            .limit(pageSize);
 
-        const total = await Property.countDocuments(query);
+        const total = await Property.countDocuments({ ...query, state: "Available" }); // Count total available properties
 
         const response: PropertySearchResponse = {
             data: properties,
@@ -173,6 +176,10 @@ function constructSearchQuery(queryParams: any) {
         { neighbourhoodDescription: new RegExp(queryParams.destination, "i") },
         { transport: new RegExp(queryParams.destination, "i")},
       ];
+    }
+
+    if(queryParams.state) {
+      constructedQuery.state = queryParams.state;
     }
   
     if (queryParams.adultCount) {

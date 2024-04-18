@@ -35,14 +35,6 @@ const Detail = () => {
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
-                    {property.facilities.map((facility)=>(
-                        <div className="border border-slate-300 rounded-sm p-3">
-                            {facility}
-                        </div>
-                    ))}
-            </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr]">
                 <div className="whitespace-pre-line">{property.description}</div>
                 <div className="h-fit">

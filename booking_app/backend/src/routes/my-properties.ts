@@ -26,6 +26,7 @@ router.post(
         body("country").notEmpty().withMessage('Country is required'),
         body("street").notEmpty().withMessage('Street is required'),
         body("description").notEmpty().withMessage('Description is required'),
+        body("state").notEmpty().withMessage('State of the ad is required'),
         body("neighbourhoodDescription").notEmpty().withMessage('Description of the neighbourhood is required'),
         body("transport").notEmpty().withMessage('Means of transport is required'),
         body("latitude").notEmpty().withMessage('Latitude is required'),

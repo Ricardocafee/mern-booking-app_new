@@ -41,6 +41,7 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     neighbourhoodDescription: { type: String, required: true},
     transport: { type: String, required: true},
     description: { type: String, required: true },
+    state: {type: String, required: true},
     type: Type,
     roomsCounter: [roomsSchema],
     adultCount: { type: Number, required: true },

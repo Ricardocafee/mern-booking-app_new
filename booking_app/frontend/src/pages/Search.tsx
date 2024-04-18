@@ -1,11 +1,9 @@
 import { useQuery } from "react-query";
 import { useSearchContext } from "../contexts/SearchContext";
-import * as apiClient from "../api-client"
+import * as apiClient from "../api-client";
 import { useState } from "react";
 import SearchResultsCard from "../components/SearchResultsCard";
 import Pagination from "../components/Pagination";
-import StarRatingFilter from "../components/StarRatingFilter";
-import PropertyTypesFilter from "../components/PropertyTypesFilter";
 import PriceFilter from "../components/PriceFilter";
 
 export type TypeFacilities = {
@@ -16,10 +14,8 @@ export type TypeFacilities = {
 const Search = () => {
     const search = useSearchContext();
 
-    const [page, setPage] = useState<number>(1)
+    const [page, setPage] = useState<number>(1);
 
-    const [selectedStars, setSelectedStars] = useState<string[]>([]);
-    const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
     const [selectedPrice, setSelectedPrice] = useState<number | undefined>();
     const [sortOption, setSortOption] = useState<string>("");
 
@@ -30,36 +26,16 @@ const Search = () => {
         adultCount: search.adultCount.toString(),
         childCount: search.childCount.toString(),
         page: page.toString(),
-        stars: selectedStars,
-        types: selectedPropertyTypes,
         maxPrice: selectedPrice?.toString(),
         sortOption,
     };
-    
-    const { data: propertyData } = useQuery(["searchProperties", searchParams], () => 
-    apiClient.SearchProperties(searchParams)
+
+    const { data: propertyData } = useQuery(["searchProperties", searchParams], () =>
+        apiClient.SearchProperties(searchParams)
     );
 
-    const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const starRating = event.target.value;
-
-        setSelectedStars((prevStars)=>
-            event.target.checked
-              ? [...prevStars, starRating]
-              : prevStars.filter((star)=> star !== starRating)
-        );
-    };
-
-    const handlePropertyTypesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const propertyType = event.target.value;
-
-        setSelectedPropertyTypes((prevPropertyTypes)=>
-            event.target.checked
-              ? [...prevPropertyTypes, propertyType]
-              : prevPropertyTypes.filter((propertyType_)=> propertyType_ !== propertyType)
-        );
-    };
-
+    // Filter properties based on their state being "Available"
+    const availableProperties = propertyData?.data.filter(property => property.state === "Available") || [];
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
@@ -68,15 +44,9 @@ const Search = () => {
                     <h3 className="text-lg font-semibold border-b border-slate-300 pb-5">
                         Filter by:
                     </h3>
-                    <StarRatingFilter 
-                    selectedStars={selectedStars} 
-                    onChange={handleStarsChange}/>
-                    <PropertyTypesFilter 
-                    selectedPropertyTypes={selectedPropertyTypes} 
-                    onChange={handlePropertyTypesChange}/>
-                    <PriceFilter 
-                    selectedPrice={selectedPrice}
-                    onChange={(value?:number)=> setSelectedPrice(value)}
+                    <PriceFilter
+                        selectedPrice={selectedPrice}
+                        onChange={(value?: number) => setSelectedPrice(value)}
                     />
                 </div>
             </div>
@@ -87,24 +57,26 @@ const Search = () => {
                         {search.destination ? ` in ${search.destination}` : ""}
                     </span>
 
-                    <select value={sortOption} 
-                    onChange={(event)=> setSortOption(event.target.value)}
-                    className="p-2 border rounded-md"
+                    <select
+                        value={sortOption}
+                        onChange={(event) => setSortOption(event.target.value)}
+                        className="p-2 border rounded-md"
                     >
                         <option value="">Sort By</option>
-                        <option value="starRating">Star Rating</option>
                         <option value="pricePerNightAsc">Price Per Night (low to high)</option>
                         <option value="pricePerNightDesc">Price Per Night (high to low)</option>
                     </select>
-
                 </div>
-                {propertyData?.data.map((property)=>(
-                    <SearchResultsCard property={property}/>
+                {/* Map over availableProperties instead of propertyData?.data */}
+                {availableProperties.map((property) => (
+                    <SearchResultsCard key={property._id} property={property} />
                 ))}
                 <div>
-                    <Pagination page={propertyData?.pagination.page || 1} 
-                    pages={propertyData?.pagination.pages || 1}
-                    onPageChange={(page)=> setPage(page)}/>
+                    <Pagination
+                        page={propertyData?.pagination.page || 1}
+                        pages={propertyData?.pagination.pages || 1}
+                        onPageChange={(page) => setPage(page)}
+                    />
                 </div>
             </div>
         </div>

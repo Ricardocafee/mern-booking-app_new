@@ -146,6 +146,7 @@ export const register = async (formData: RegisterFormData) => {
 
   export type SearchParams = {
     destination?: string;
+    state?: string;
     checkIn?: string;
     checkOut?: string;
     adultCount?: string;
@@ -163,6 +164,7 @@ export const register = async (formData: RegisterFormData) => {
     ): Promise<PropertySearchResponse>  => {
     const queryParams = new URLSearchParams();
     queryParams.append("destination", searchParams.destination || "");
+    queryParams.append("state", searchParams.state || "");
     queryParams.append("checkIn", searchParams.checkIn || "");
     queryParams.append("checkOut", searchParams.checkOut || "");
     queryParams.append("adultCount", searchParams.adultCount || "");
