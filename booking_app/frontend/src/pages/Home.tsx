@@ -9,8 +9,12 @@ import { TbBeach } from "react-icons/tb";
 const Home = () => {
     const { data: properties } = useQuery("fetchQuery", () => apiClient.fetchProperties());
 
-    const topRowProperties = properties?.slice(0, 2) || [];
-    const bottomRowProperties = properties?.slice(2, 5) || [];
+     // Filter properties to display only those with the state 'Available'
+     const availableProperties = properties?.filter(property => property.state === 'Available') || [];
+
+     // Split the filtered properties into top row and bottom row
+     const topRowProperties = availableProperties.slice(0, 2) || [];
+     const bottomRowProperties = availableProperties.slice(2, 5) || [];
 
     return (
         <div className="space-y-3">

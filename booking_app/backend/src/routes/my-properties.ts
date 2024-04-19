@@ -76,6 +76,33 @@ router.post(
     }
 );
 
+// DELETE `/api/my-properties/:id`
+router.delete("/:id", verifyToken, async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        // Find the property by its ID
+        const property = await Property.findOne({
+            _id: id,
+            userId: req.userId,
+        });
+
+        // Check if property exists
+        if (!property) {
+            return res.status(404).json({ message: "Property not found" });
+        }
+
+        // Remove the property from the database
+        await Property.findByIdAndDelete(id);
+
+        // Respond with success message
+        res.status(200).json({ message: "Property deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting property:", error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+});
+
 router.get("/", verifyToken, async(req: Request, res:Response)=>{
 
     try{

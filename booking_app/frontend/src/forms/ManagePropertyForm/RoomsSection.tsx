@@ -24,9 +24,6 @@ const RoomsSection = () => {
     }
   }, [watchedRoomsCounter, propertyRooms]);
 
-  console.log("Initial", initialRoomCounters);
-
-
   const handleCounterChange = (index: number, value: number) => {
     const updatedCounters = [...initialRoomCounters];
     updatedCounters[index].counter = value;

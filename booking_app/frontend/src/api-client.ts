@@ -3,6 +3,7 @@ import { SignInFormData } from "./pages/SignIn";
 import { PropertySearchResponse, PropertyType, UserType, PaymentIntentResponse } from '../../backend/src/shared/types'
 import { BookingFormData } from "./forms/BookingForm/BookingForm";
 
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export const fetchCurrentUser = async (): Promise<UserType> => {
@@ -125,6 +126,20 @@ export const register = async (formData: RegisterFormData) => {
   return response.json();
   };
 
+  export const deleteMyPropertyById = async (propertyId: string): Promise<PropertyType>=>{
+    const response = await fetch(`${API_BASE_URL}/api/my-properties/${propertyId}`, {
+      method: "DELETE",
+      credentials: "include"
+    })
+    if (!response.ok){
+      throw new Error("Error fetching properties");
+    }
+
+    return response.json();
+  };
+
+
+
   export type RoomSchema = {
     type: string;
     counter: number;
@@ -223,6 +238,8 @@ export const register = async (formData: RegisterFormData) => {
 
     return response.json();
   };
+
+
 
   export const createPaymentIntent = async (propertyId: string, numberOfNights: string): Promise<PaymentIntentResponse> => {
     const response = await fetch(

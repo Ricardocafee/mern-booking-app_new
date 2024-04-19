@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { State } from '../../config/property-options-state';
 import { PropertyFormData } from './ManagePropertyForm';
 import { useFormContext } from 'react-hook-form';
+import { FaMoon } from "react-icons/fa";
+import { RiProhibitedLine } from "react-icons/ri";
 
 const StateSection = () => {
     // Get the default selected state from the form context
@@ -36,26 +38,33 @@ const StateSection = () => {
             <div className="grid grid-cols-2 gap-3">
                 {/* Radio buttons for selecting state */}
                 {State.map((state, index) => (
-                    <div key={index} className="mb-2">
-                        <input
-                            type="radio"
-                            id={`state-${index}`}
-                            value={state}
-                            checked={selectedState === state}
-                            onChange={handleStateChange}
-                            style={{
-                                width: '1.1em',
-                                height: '1.1em',
-                                borderRadius: '50%',
-                                border: '2px solid #4A5568'
-                            }}
-                        />
-                        <label htmlFor={`state-${index}`} className="ml-2">
-                            <span style={{ marginTop: '-3px' }}>{state}</span><br />
-                            {getDescription(state)}
-                        </label>
-                    </div>
-                ))}
+    <div key={index} className="mb-2">
+        <div className="flex items-center"> {/* Flex container for state name and green circle */}
+            <input
+                type="radio"
+                id={`state-${index}`}
+                value={state}
+                checked={selectedState === state}
+                onChange={handleStateChange}
+                style={{
+                    width: '1.1em',
+                    height: '1.1em',
+                    borderRadius: '50%',
+                    border: '2px solid #4A5568'
+                }}
+            />
+            <label htmlFor={`state-${index}`} className="ml-2 flex items-center"> {/* Flex container for state name */}
+                {state === 'Available' && <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>} {/* Green circle */}
+                {state === 'Not announced' && <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>} {/* Green circle */}
+                {state === 'Paused' && <FaMoon className="mr-2" />} 
+                {state == 'Deactivated' && <RiProhibitedLine className="mr-2"/>}
+                <span style={{ marginTop: '-3px' }}>{state}</span><br /> {/* State name */}
+            </label>
+        </div>
+        {getDescription(state)} {/* Description */}
+    </div>
+))}
+
             </div>
         </div>
     );

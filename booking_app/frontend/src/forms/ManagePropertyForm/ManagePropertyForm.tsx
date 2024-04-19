@@ -53,7 +53,7 @@ export type PropertyFormData = {
 
 type Props = {
     property?: PropertyType;
-    onSave: (propertyFormData: FormData)=> void;
+    onSave: (propertyFormData: FormData, state: string)=> void;
     isLoading: boolean; 
 }
 
@@ -119,7 +119,7 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
             formData.append(`imageFiles`, imageFile);
         });
 
-        onSave(formData);
+        onSave(formData, formDataJson.state);
     });
     
     return (

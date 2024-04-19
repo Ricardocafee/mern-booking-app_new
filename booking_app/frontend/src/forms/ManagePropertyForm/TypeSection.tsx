@@ -6,21 +6,39 @@ import { useEffect, useState } from "react";
 
 const TypeSection = () => {
     const { register, getValues, setValue, watch} = useFormContext<PropertyFormData>();
-    const { type } = watch(); 
+    const { type, state } = watch(); 
     const [renderComponent, setRenderComponent] = useState(false);
 
-    useEffect(() => {
-        const delay = 400; // Adjust the delay time as needed
-        const timeout = setTimeout(() => {
-            // Use the type values here after the delay
-            console.log("Type values:", type);
-            // You can perform any actions here that require the type values
-            setRenderComponent(true); // Set to render the component after timeout
-        }, delay);
 
-        // Clean up the timeout to avoid memory leaks
-        return () => clearTimeout(timeout);
-    }, [type]); // Run this effect whenever the type values change
+    useEffect(() => {
+      const delay = 400; // Adjust the delay time as needed
+      const timeout = setTimeout(() => {
+          // Use the type values here after the delay
+          // You can perform any actions here that require the type values
+          setRenderComponent(true); // Set to render the component after timeout
+  
+          // Check if type.spaceType is still undefined after the timeout
+          if (!type?.spaceType || type.spaceType === 'undefined') {
+              // Set a default value for type.spaceType if it is still undefined
+              setValue("type.spaceType", "Apartment");
+          }
+          if (!type?.propertyType || type.propertyType === 'undefined') {
+              // Set a default value for type.spaceType if it is still undefined
+              setValue("type.propertyType", "Lease Unit");
+          }
+          if (!type?.adType || type.adType == 'undefined') {
+              // Set a default value for type.spaceType if it is still undefined
+              setValue("type.adType", "Full Space");
+          }
+          if (!state || state == 'undefined') {
+            // Set a default value for type.spaceType if it is still undefined
+            setValue("state", "Available");
+        }
+      }, delay);
+  
+      // Clean up the timeout to avoid memory leaks
+      return () => clearTimeout(timeout);
+  }, [type, setValue]); // Run this effect whenever the type values or setValue function change
 
 
     const handleSpaceType = (option: string) => {
