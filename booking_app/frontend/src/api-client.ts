@@ -167,6 +167,7 @@ export const register = async (formData: RegisterFormData) => {
     adultCount?: string;
     childCount?: string;
     page?: string;
+    ranking?: string;
     facilities?: TypeFacilities[];
     type?: Type;
     roomsCounter?: RoomSchema[];
@@ -188,6 +189,7 @@ export const register = async (formData: RegisterFormData) => {
 
     queryParams.append("maxPrice", searchParams.maxPrice || "");
     queryParams.append("sortOption", searchParams.sortOption || "");
+    queryParams.append("ranking", searchParams.ranking || "");
 
     queryParams.append("type.spaceType", searchParams.type?.spaceType || "");
     queryParams.append("type.propertyType", searchParams.type?.propertyType || "");

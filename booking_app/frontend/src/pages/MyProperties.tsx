@@ -42,7 +42,7 @@ const MyProperties = () => {
                                 </div>
                             </div>
                             <div className="flex" style={{ paddingTop: '15px' }}>
-                                <ProjectDescription name={property.name} description={property.description} />
+                                <ProjectDescription name={property.name} description={property.description} length={200}/>
                             </div>
                             <span className="flex justify-end ">
                                 <Link to={`/edit-property/${property._id}`} className="flex bg-blue-600 text-white text-xl font-bold p-2 hover:bg-blue-500 rounded-md transition">View Details</Link>

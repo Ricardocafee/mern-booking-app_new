@@ -131,23 +131,18 @@ const DetailsSection = () => {
       </label>
       <label className="text-gray-700 text-sm font-bold w-[50%]">
         <div className="mb-2">
-            Star Rating
+        Ranking
         </div>
-        <select
-            {...register("starRating", {
-                required: "This fields is required",
-            })}
-            className="border rounded w-full p-2 text-gray-700 font-normal"
-        >
-            <option value="" className="text-sm font-bold">
-                Select a Rating
-            </option>
-            {[1, 2, 3, 4, 5].map((num) => (
-                <option key={num} value={num}> {num} </option>
-            ))}
-        </select>
-        {errors.starRating && (
-          <span className="text-red-500">{errors.starRating.message}</span>
+        <input
+          type="number"
+          min={0}
+          max={5}
+          step="0.01"
+          className="border rounded w-full py-2 px-2 font-normal"
+          {...register("ranking", { required: "This field is required", valueAsNumber: true })}
+        ></input>
+        {errors.ranking && (
+          <span className="text-red-500">{errors.ranking.message}</span>
         )}
       </label>
                 

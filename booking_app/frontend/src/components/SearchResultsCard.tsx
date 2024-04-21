@@ -9,6 +9,8 @@ import { MdApartment } from "react-icons/md";
 import ImageCarousel from "./ImageCarousel"; // Adjust the path as per your file structure
 import { CgArrowsExpandRight } from "react-icons/cg";
 import ImageFullScreen from "./ImageFullScreen";
+import { IoMdStar } from "react-icons/io";
+import { renderIconByKey } from "./DictionaryIcons";
 
 type Props = {
     property: PropertyType;
@@ -17,6 +19,7 @@ type Props = {
 const SearchResultsCard = ({ property }: Props) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isHoveredTitle, setIsHoveredTitle] = useState(false);
+    const [isHoveredNote, setIsHoveredNote] = useState(false);
     const [showMap, setShowMap] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -41,7 +44,7 @@ const SearchResultsCard = ({ property }: Props) => {
 
     return (
         <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-8 gap-8">
-            <div className="w-full h-[300px] rounded-md relative overflow-hidden"
+            <div className="w-full h-[300px] rounded-md relative overflow-hidden grid grid-cols-[3fr] gap-4"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}>
                 <ImageCarousel imageUrls={property.imageUrls} isHovered={isHovered}/>
@@ -62,6 +65,7 @@ const SearchResultsCard = ({ property }: Props) => {
             </div>
             <div className="grid grid-rows-[1fr_2fr_1fr]">
                 <div>
+                <div className="flex justify-between">
                     <Link
                         to={`/detail/${property._id}`}
                         className="text-2xl font-bold cursor-pointer"
@@ -71,14 +75,29 @@ const SearchResultsCard = ({ property }: Props) => {
                     >
                         {property.name}
                     </Link>
+                    <div className="relative" onMouseEnter={() => setIsHoveredNote(true)} onMouseLeave={() => setIsHoveredNote(false)}>
+                        <div className="font-bold flex items-center">
+                            <IoMdStar className="mr-1"/> {property.ranking}
+                        </div>
+                        {isHoveredNote && (
+                            <div className="absolute top-full left-0 bg-black text-white py-1 px-2 rounded-md text-xs" style={{ width: '150px' }}>
+                                Classification of the property (Source: Airbnb)                           
+                            </div>
+                            
+                        )}
+                    </div>
+                    </div>
                     <div className="flex justify-between">
                         <div className="flex items-center">
                             <CiLocationOn className="mr-1" />
                             <div className="text-sm" >{property.street}</div>
                         </div>
+                        <div>
+                            
                         <u className="text-sm cursor-pointer" style={{ color: '#2563EB' }} onClick={openMapModal}>
                             Show on map
                         </u>
+                        </div>
                     </div>
                 </div>
                 
@@ -102,14 +121,14 @@ const SearchResultsCard = ({ property }: Props) => {
                     )}
                     <div className="flex flex-cols">
                             <div className="pr-2 flex">
-                                <IoBed className="mr-3" style={{ fontSize: "22px" }} />
+                                <IoBed className="mr-3" style={{ fontSize: "20px" }} />
                                 <div className="mr-1 text-gray-600 text-sm">
                                     {property.roomsCounter.find((room) => room.type === "Bedrooms")?.counter} {' '}
                                     {property.roomsCounter.find((room) => room.type === "Bedrooms")?.counter === 1 ? 'Bedroom' : 'Bedrooms'}
                                 </div>
                             </div>
                             <div className="flex pr-2">
-                                        <FaShower className="mr-3 ml-2" style={{ fontSize: "22px" }} />
+                                        <FaShower className="mr-3 ml-2" style={{ fontSize: "20px" }} />
                                         <div className="mr-1 text-gray-600 text-sm">
                                             {property.roomsCounter.find((room) => room.type === "Bathrooms")?.counter} Bathrooms
                                         </div>

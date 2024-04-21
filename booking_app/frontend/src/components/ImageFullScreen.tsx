@@ -60,7 +60,7 @@ const ImageFullScreen: React.FC<Props> = ({ imageUrls, currentIndex, property, s
             <div className="max-w-screen-lg mx-auto relative">
                 <img
                     src={imageUrls[currentImageIndex]}
-                    className={`w-[800px] max-h-full ${transition}`}
+                    className={`h-[500px] ${transition}`}
                     alt="Full Screen"
                 />
             </div>

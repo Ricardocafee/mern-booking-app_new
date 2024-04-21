@@ -36,6 +36,7 @@ export type PropertyFormData = {
     street: string;
     description: string;
     state: string;
+    ranking: number;
     transport: string;
     neighbourhoodDescription: string;
     type: Type;
@@ -80,6 +81,7 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("transport", formDataJson.transport);
         formData.append("description", formDataJson.description);
         formData.append("state", formDataJson.state);
+        formData.append("ranking", formDataJson.ranking.toString());
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
         formData.append("starRating", formDataJson.starRating.toString());
         formData.append("adultCount", formDataJson.adultCount.toString());

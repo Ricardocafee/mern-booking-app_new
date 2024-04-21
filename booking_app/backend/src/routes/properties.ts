@@ -222,6 +222,12 @@ function constructSearchQuery(queryParams: any) {
         $gte: parseInt(queryParams.longitude),
       };
     }
+
+    if (queryParams.ranking) {
+      constructedQuery.ranking = {
+        $gte: parseInt(queryParams.ranking),
+      };
+    }
   
     if (queryParams.type) {
 

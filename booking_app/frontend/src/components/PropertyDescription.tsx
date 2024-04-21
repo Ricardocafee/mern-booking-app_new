@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { IoCloseSharp } from 'react-icons/io5';
+import { MdKeyboardArrowRight } from "react-icons/md"
 
 interface Props {
     name: string;
     description: string;
+    length: number;
 }
 
-const MAX_DESCRIPTION_LENGTH = 200;
 
-const ProjectDescription: React.FC<Props> = ({ name, description }) => {
+const ProjectDescription: React.FC<Props> = ({ name, description, length }) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
+    
+    const MAX_DESCRIPTION_LENGTH = length;
 
     const toggleDescription = () => {
         setShowFullDescription(!showFullDescription);
@@ -17,7 +21,6 @@ const ProjectDescription: React.FC<Props> = ({ name, description }) => {
     return (
         <div>
           <p>
-            <strong>Description</strong>:{' '}
             {showFullDescription ? (
               `${description.slice(0, MAX_DESCRIPTION_LENGTH)}...`
             ) : (
@@ -25,23 +28,21 @@ const ProjectDescription: React.FC<Props> = ({ name, description }) => {
             )}
           </p>
           {description.length > MAX_DESCRIPTION_LENGTH && (
+            <div className='flex mt-3'>
             <button
               onClick={toggleDescription}
+              className='font-bold'
               style={{
                 textDecoration: 'underline',
-                color: 'blue',
+                color: 'black',
                 cursor: 'pointer',
                 transition: 'color 0.3s ease', // Smooth transition effect
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget as HTMLElement).style.color = 'black'
-              } // Change color to black on hover
-              onMouseLeave={(e) =>
-                (e.currentTarget as HTMLElement).style.color = 'blue'
-              } // Change color back to blue when not hovered
             >
               <span>{showFullDescription ? 'Show less' : 'Show more'}</span>
             </button>
+            <MdKeyboardArrowRight className='ml-1 mt-0.5' style={{ fontSize: "22px" }}/>
+            </div>
           )}
       
           {/* Modal */}
@@ -72,6 +73,11 @@ const ProjectDescription: React.FC<Props> = ({ name, description }) => {
                 }}
                 onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside
               >
+              <div className="flex justify-end cursor-pointer">
+              <div style={{ transition: 'color 0.3s' }} className="hover:bg-gray-200 p-1 rounded-full" onClick={toggleDescription}>
+                        <IoCloseSharp size={24} style={{ color: '#333' }} /> {/* Cross icon */}
+                </div>
+            </div>
                <div className='p-6'> 
                 <h2 className='font-bold text-2xl pb-4 border-b border-gray-300'>{name}</h2>
                 <h1 className='font-bold text-1xl mt-5'>Description</h1>

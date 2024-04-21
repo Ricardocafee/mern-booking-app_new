@@ -25,6 +25,7 @@ export type PropertyType = {
     neighbourhoodDescription: string;
     transport: string;
     description: string;
+    ranking: number;
     state: string;
     type: Type;
     roomsCounter: RoomSchema[];
