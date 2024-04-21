@@ -10,7 +10,6 @@ import ImageCarousel from "./ImageCarousel"; // Adjust the path as per your file
 import { CgArrowsExpandRight } from "react-icons/cg";
 import ImageFullScreen from "./ImageFullScreen";
 import { IoMdStar } from "react-icons/io";
-import { renderIconByKey } from "./DictionaryIcons";
 
 type Props = {
     property: PropertyType;

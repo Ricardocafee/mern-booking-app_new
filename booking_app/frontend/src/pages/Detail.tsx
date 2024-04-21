@@ -15,7 +15,6 @@ import { IoCloseSharp } from "react-icons/io5";
 const Detail = () => {
     const { propertyId } = useParams();
     const [isFullScreen, setIsFullScreen] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -46,9 +45,8 @@ const Detail = () => {
         return <></>;
     }
 
-    const handleImageClick = (imageUrl: string, index: number) => {
+    const handleImageClick = ( index: number) => {
         setCurrentImageIndex(index);
-        setSelectedImage(imageUrl);
         setIsFullScreen(true);
     };
 
@@ -184,7 +182,7 @@ const Detail = () => {
                                 cursor: 'pointer',
                                 filter: 'brightness(100%)' // Apply brightness effect
                             }}
-                            onClick={() => handleImageClick(property.imageUrls[0], 0)}
+                            onClick={() => handleImageClick(0)}
                             onMouseEnter={(e) => (e.target as HTMLImageElement).style.filter = 'brightness(70%)'}
                             onMouseLeave={(e) => (e.target as HTMLImageElement).style.filter = 'brightness(100%)'}
                         />
@@ -212,12 +210,12 @@ const Detail = () => {
                                     }}
                                     onMouseEnter={(e) => (e.target as HTMLImageElement).style.filter = index === 3 ? 'brightness(100%)' : 'brightness(90%)'}
                                     onMouseLeave={(e) => (e.target as HTMLImageElement).style.filter = index === 3 ? 'brightness(70%)' : 'brightness(100%)'}
-                                    onClick={() => handleImageClick(image, index + 1)}
+                                    onClick={() => handleImageClick(index + 1)}
                                 />
                                 {/* Display "More x photos" text on the image of index 3 */}
                                 {index === 3 && (
                                     <div className="absolute left-0 right-0 top-0 bottom-0 flex justify-center items-center text-white underline cursor-pointer font-bold">
-                                        <span onClick={() => handleImageClick(property.imageUrls[4], 4)}>
+                                        <span onClick={() => handleImageClick(4)}>
                                             More {property.imageUrls.length - 5} {property.imageUrls.length - 5 === 1 ? 'photo' : 'photos'}
                                         </span>
                                     </div>
