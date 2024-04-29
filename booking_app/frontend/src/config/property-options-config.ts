@@ -259,9 +259,13 @@ export const propertyTypes = [
 
   export const propertyRooms = [
     "Bedrooms",
-    "Bathrooms",
-    "Kitchens",
+    "Fully-Equipped Bathrooms",
+    "Half Bathrooms",
+    "Fully-Equipped Kitchens",
+    "Kitchenettes",
     "Living rooms",
+    "Dining Areas",
+    "Offices",
     "Courtyards",
     "Laundries",
     "Outdoors",

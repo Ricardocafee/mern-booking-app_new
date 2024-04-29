@@ -8,7 +8,7 @@ interface CounterRoomProps {
 }
 
 
-const CounterRoom = ({ counter, setCounter}: CounterRoomProps) => {
+const Counter = ({ counter, setCounter}: CounterRoomProps) => {
     const handleClick1 = () => {
         setCounter(counter + 1);
     };
@@ -34,4 +34,4 @@ const CounterRoom = ({ counter, setCounter}: CounterRoomProps) => {
     );
 };
 
-export default CounterRoom;
+export default Counter;

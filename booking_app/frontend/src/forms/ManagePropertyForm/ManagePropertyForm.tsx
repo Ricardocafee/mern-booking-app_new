@@ -29,6 +29,19 @@ export type Type = {
     propertySize: number;
 }
 
+export type BedType = {
+    type: string;
+    counter: number;
+}
+
+export type RoomDetails = {
+    type: string;
+    counter: number;
+    beds: BedType[];
+    bathroomIncluded: boolean;
+    imageUrls: string[],
+}
+
 export type PropertyFormData = {
     name: string;
     city: string;
@@ -41,6 +54,7 @@ export type PropertyFormData = {
     neighbourhoodDescription: string;
     type: Type;
     roomsCounter: RoomSchema[];
+    roomsDetails: RoomDetails[];
     pricePerNight: number;
     facilities: TypeFacilities[];
     starRating: number;
@@ -83,7 +97,6 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("state", formDataJson.state);
         formData.append("ranking", formDataJson.ranking.toString());
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
-        formData.append("starRating", formDataJson.starRating.toString());
         formData.append("adultCount", formDataJson.adultCount.toString());
         formData.append("childCount", formDataJson.childCount.toString());
         formData.append("latitude", formDataJson.latitude.toString());
@@ -104,6 +117,22 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
             })
         });
 
+        formDataJson.roomsDetails.forEach((room, index) => {
+            console.log("room Details", room)
+            formData.append(
+            `roomsDetails[${index}][counter]`,
+            room.counter?.toString() ?? '0'
+            );
+            formData.append(`roomsDetails[${index}][type]`, room.type);
+            console.log("Testtttt");
+            formData.append(`roomsDetails[${index}][bathroomIncluded]`, room.bathroomIncluded ? "true" : "false");
+            if (room.beds) {
+            room.beds.forEach((bed, idx)=>{
+                formData.append(`roomsDetails[${index}][beds][${idx}][type]`, bed.type);
+                formData.append(`roomsDetails[${index}][beds][${idx}][counter]`, bed.counter.toString());
+            })
+            }
+        });
 
         formDataJson.roomsCounter.forEach((room, index) => {
             formData.append(`roomsCounter[${index}][counter]`, room.counter.toString());

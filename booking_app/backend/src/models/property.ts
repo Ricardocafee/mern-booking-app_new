@@ -11,6 +11,19 @@ const typeFacilities = new mongoose.Schema({
     facilities: [{ type: String}], 
 });
 
+const bedType = new mongoose.Schema({
+    type: { type: String }, 
+    counter: { type: Number },
+});
+
+const roomDetails = new mongoose.Schema({
+    type: { type: String }, 
+    counter: { type: Number }, 
+    beds: [bedType], 
+    bathroomIncluded: { type: Boolean }, 
+    imageUrls: [{ type: String },],
+});
+
 const Type = new mongoose.Schema({
     spaceType: {type: String, required: true},
     propertyType: {type: String, required: true},
@@ -45,11 +58,11 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     ranking: {type: Number, required: true},
     type: Type,
     roomsCounter: [roomsSchema],
+    roomsDetails: [roomDetails],
     adultCount: { type: Number, required: true },
     childCount: { type: Number, required: true },
     facilities: [typeFacilities],
     pricePerNight: { type: Number, required: true },
-    starRating: { type: Number, required: true },
     imageUrls: [{ type: String, required: true },],
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },

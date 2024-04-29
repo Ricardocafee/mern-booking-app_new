@@ -14,6 +14,19 @@ export type Type = {
     propertySize: number;
 }
 
+export type BedType = {
+    type: string;
+    counter: number;
+}
+
+export type RoomDetail = {
+    type: string;
+    counter: number;
+    beds: BedType[];
+    bathroomIncluded: boolean;
+    imageUrls: string[],
+}
+
 
 export type PropertyType = {
     _id: string;
@@ -29,11 +42,11 @@ export type PropertyType = {
     state: string;
     type: Type;
     roomsCounter: RoomSchema[];
+    roomsDetails: RoomDetail[];
     adultCount: number;
     childCount: number;
     facilities: TypeFacilities[];
     pricePerNight: number;
-    starRating: number;
     imageUrls: string[];
     latitude: number;
     longitude: number;

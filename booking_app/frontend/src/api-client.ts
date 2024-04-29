@@ -159,6 +159,19 @@ export const register = async (formData: RegisterFormData) => {
     propertySize: number;
   }
 
+  export type BedType = {
+    type: string;
+    counter: number;
+}
+
+  export type RoomDetail = {
+    type: string;
+    counter: number;
+    beds: BedType[];
+    bathroomIncluded: boolean;
+    imageUrls: string[],
+}
+
   export type SearchParams = {
     destination?: string;
     state?: string;
@@ -171,7 +184,7 @@ export const register = async (formData: RegisterFormData) => {
     facilities?: TypeFacilities[];
     type?: Type;
     roomsCounter?: RoomSchema[];
-    stars?: string[];
+    roomsDetails?: RoomDetail[];
     maxPrice?: string;
     sortOption?: string;
   };
@@ -205,12 +218,22 @@ export const register = async (formData: RegisterFormData) => {
       });
     });
 
+    searchParams.roomsDetails?.forEach((room) => {
+      queryParams.append("room.type", room.type || "");
+      queryParams.append("room.counter", room.counter.toString() || "");
+      queryParams.append("room.bathroomIncluded", room.bathroomIncluded ? "true" : "false");
+      room.beds?.forEach((bed) => {
+        queryParams.append("bed.type", bed.type || "");
+        queryParams.append("bed.counter", bed.counter.toString() || "");
+      });
+      
+    });
+
     searchParams.roomsCounter?.forEach((room) => {
       queryParams.append("roomsCounter.type", room.type);
       queryParams.append("roomsCounter.counter", room.counter.toString());
     });
 
-    searchParams.stars?.forEach((star)=> queryParams.append("stars", star));
 
     const response = await fetch(`${API_BASE_URL}/api/properties/search?${queryParams}`);
 

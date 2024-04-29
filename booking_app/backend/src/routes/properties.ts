@@ -17,9 +17,6 @@ router.get("/search", async (req:Request, res:Response)=>{
 
         let sortOptions = {};
         switch(req.query.sortOption) {
-            case "starRating":
-                sortOptions = { starRating: -1};
-                break;
             case "pricePerNightAsc":
                 sortOptions = { pricePerNight: 1 };
                 break;
@@ -228,6 +225,14 @@ function constructSearchQuery(queryParams: any) {
         $gte: parseInt(queryParams.ranking),
       };
     }
+
+    if (queryParams.roomsDetails) {
+      constructedQuery.roomsDetails = {
+        $all: Array.isArray(queryParams.roomsDetails)
+          ? queryParams.roomsDetails
+          : [queryParams.roomsDetails],
+      };
+    }
   
     if (queryParams.type) {
 
@@ -261,14 +266,6 @@ function constructSearchQuery(queryParams: any) {
       }
     }
     
-  
-    if (queryParams.stars) {
-      const starRatings = Array.isArray(queryParams.stars)
-        ? queryParams.stars.map((star: string) => parseInt(star))
-        : parseInt(queryParams.stars);
-  
-      constructedQuery.starRating = { $in: starRatings };
-    }
   
     if (queryParams.maxPrice) {
       constructedQuery.pricePerNight = {

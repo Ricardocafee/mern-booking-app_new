@@ -33,6 +33,11 @@ router.post(
         body("latitude").notEmpty().withMessage('Latitude is required'),
         body("longitude").notEmpty().withMessage('Longitude is required'),
 
+        body("roomsDetails")
+        .notEmpty()
+        .isArray()
+        .withMessage('Room details is required'),
+
         body("type.spaceType").notEmpty().withMessage("Space of Property is required"),
         body("type.propertyType").notEmpty().withMessage("Type of Property is required"),
         body("type.adType").notEmpty().withMessage("Type of ad is required"),

@@ -112,8 +112,9 @@ const Detail = () => {
                     cursor: 'pointer',
                     }}
                     onClick={toggleModal} // Close modal when clicking on the cross
+                    className="flex"
                 >
-                    <div style={{ transition: 'color 0.3s' }} className="hover:bg-gray-200 p-1 rounded-full">
+                    <div style={{ transition: 'color 0.3s' }} className="hover:bg-gray-200 p-1 rounded-full flex">
                         <IoCloseSharp size={24} style={{ color: '#333' }} /> {/* Cross icon */}
                     </div>
                 </div>
@@ -263,7 +264,7 @@ const Detail = () => {
                                 })}
                             </div>
                             <button className="mt-7 rounded-md border border-black p-3 font-semibold text-gray-900 hover:bg-gray-100 transition" onClick={toggleModal}>Show all {totalFacilities} facilities</button>
-                           
+                            <div className="border-b border-gray-300 mt-10"></div>
                         </div>
                         <div className="border h-fit sticky top-10 mt-12 shadow-xl rounded-md">
                             <div className="top-0 z-50 bg-white rounded-md">
@@ -272,6 +273,21 @@ const Detail = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+            <div className="font-bold text-xl mb-5 mt-10">
+                Location
+            </div>
+            <div className="font-semibold mb-6">{property.street}</div>
+             <iframe
+                title="Property Location"
+                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBG0qUTBcs3wxiJwvEEe5hKa7QEYYkPd2Y&q=${property.latitude},${property.longitude}`}
+                width="100%"
+                height="550"
+                style={{ border: 0 }}
+                allowFullScreen={true} // Set allowFullScreen to true when the modal is open
+                loading="lazy"
+            ></iframe>
             </div>
             <div>
                 {isFullScreen && (
@@ -291,7 +307,7 @@ const Detail = () => {
                             <h2 className="text-2xl font-bold mb-4">Map</h2>
                             <iframe
                                 title="Property Location"
-                                src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${property.latitude},${property.longitude}`}
+                                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBG0qUTBcs3wxiJwvEEe5hKa7QEYYkPd2Y&q=${property.latitude},${property.longitude}`}
                                 width="800"
                                 height="500"
                                 style={{ border: 0 }}

@@ -1,0 +1,16 @@
+export const bedTypes = [
+    "Couple",
+    "Queen",
+    "Single",
+    "Sofa bed",
+    "King",
+    "Single King",
+    "Sofa",
+    "Bunk Bed",
+    "Air Mattress",
+    "Mattress on the floor",
+    "Water Mattress",
+    "Cradle",
+    "Children's bed",
+    "Net",
+  ];
