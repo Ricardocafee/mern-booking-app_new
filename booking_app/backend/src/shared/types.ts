@@ -24,7 +24,7 @@ export type RoomDetail = {
     counter: number;
     beds: BedType[];
     bathroomIncluded: boolean;
-    imageUrls: string[],
+    imageUrls: string[];
 }
 
 

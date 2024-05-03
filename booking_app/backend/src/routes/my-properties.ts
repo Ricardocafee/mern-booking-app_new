@@ -8,6 +8,7 @@ import { body } from "express-validator";
 
 const router = express.Router();
 
+
 const storage = multer.memoryStorage();
 const upload = multer({
     storage: storage,
@@ -58,16 +59,37 @@ router.post(
         .isArray()
         .withMessage('Rooms counters are required'),
     ],
-    upload.array("imageFiles", 6),
+    upload.any(),
      async (req: Request, res: Response) => {
         try {
-            const imageFiles = req.files as Express.Multer.File[];
+
             const newProperty: PropertyType = req.body;
 
+            const files = req.files as Express.Multer.File[];   
+                    
 
-            const imageUrls = await uploadImages(imageFiles);
-            
-            newProperty.imageUrls = imageUrls;
+            for (const element of files) {
+                console.log("Element", element);
+
+                if (element.fieldname === 'imageFiles') {
+                    const property_images = [element]; // Wrap the single file object in an array
+
+                    const updatedImageUrls = await uploadImages(property_images);
+
+                    newProperty.imageUrls = updatedImageUrls
+                }
+
+                    for (let index = 0; index < newProperty.roomsDetails.length; index++) {
+                        if (element.fieldname === `roomsDetails[${index}][imageFiles]`) {
+
+                            const room_images = [element]; // Wrap the single file object in an array
+                            const updatedRoomImageUrls = await uploadImages(room_images);
+
+                            newProperty.roomsDetails[index].imageUrls = updatedRoomImageUrls;                  
+                        }
+                    }
+                }
+
             newProperty.lastUpdated = new Date();
             newProperty.userId = req.userId;
 
@@ -76,10 +98,12 @@ router.post(
 
             res.status(201).send(property);
         } catch (e) {
-            console.log("Error creating hotel: ", e);
+            console.log("Error creating property: ", e);
             res.status(500).json({message: "Something went wrong" });
         }
-    }
+    },
+    
+     
 );
 
 // DELETE `/api/my-properties/:id`
@@ -136,7 +160,7 @@ router.get("/:id", verifyToken, async(req: Request, res: Response)=>{
 
 router.put("/:propertyId", 
 verifyToken,
-upload.array("imageFiles"),
+upload.any(),
 async (req: Request, res: Response) => {
     try {
         const updatedProperty: PropertyType = req.body;
@@ -154,13 +178,35 @@ async (req: Request, res: Response) => {
             return res.status(404).json({message: "Property not found" });
         }
 
-        const files = req.files as Express.Multer.File[];
-        const updatedImageUrls = await uploadImages(files);
+        const files = req.files as Express.Multer.File[];   
+                    
 
-        property.imageUrls = [
-            ...updatedImageUrls,
-            ...(updatedProperty.imageUrls || []),
-    ];
+        for (const element of files) {
+
+            if (element.fieldname === 'imageFiles') {
+                const property_images = [element]; // Wrap the single file object in an array
+
+                const updatedImageUrls = await uploadImages(property_images);
+
+                property.imageUrls = [
+                        ...updatedImageUrls,
+                        ...(updatedProperty.imageUrls || []),
+                ];
+            }
+
+            for (let index = 0; index < updatedProperty.roomsDetails.length; index++) {
+                if (element.fieldname === `roomsDetails[${index}][imageFiles]`) {
+
+                    const room_images = [element]; // Wrap the single file object in an array
+                    const updatedRoomImageUrls = await uploadImages(room_images);
+
+                    property.roomsDetails[index].imageUrls = [
+                        ...updatedRoomImageUrls,
+                        ...(updatedProperty.roomsDetails[index].imageUrls || []),
+                    ];                  
+                }
+            }
+        }
 
     await property.save();
     res.status(201).json(property);
@@ -172,11 +218,14 @@ async (req: Request, res: Response) => {
 );
 
 
+
+
 async function uploadImages(imageFiles: Express.Multer.File[]) {
     const uploadPromises = imageFiles.map(async (image) => {
         const b64 = Buffer.from(image.buffer).toString("base64");
         let dataURI = "data:" + image.mimetype + ";base64," + b64;
         const res = await cloudinary.v2.uploader.upload(dataURI);
+        console.log("res", res.url)
         return res.url;
     });
 

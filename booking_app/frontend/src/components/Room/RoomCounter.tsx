@@ -20,6 +20,7 @@ export type RoomDetails = {
   beds: BedType[];
   bathroomIncluded: boolean;
   imageUrls: string[];
+  imageFiles: FileList;
 };
 
 const RoomCounter = () => {
@@ -60,8 +61,10 @@ const RoomCounter = () => {
           beds: [],
           bathroomIncluded: false,
           imageUrls: [],
+          imageFiles: {} as FileList,
         };
         updatedRooms.push(newRoom);
+        console.log("New room", newRoom);
       }
     } else if (existingRoomsCount > value) {
       // Remove excess rooms if counter is less than existing rooms
@@ -74,9 +77,6 @@ const RoomCounter = () => {
     }
 
     setValue("roomsDetails", updatedRooms);
-    const asdas = watch("roomsCounter")
-    console.log("Counterssss", asdas)
-  
 
 
   };

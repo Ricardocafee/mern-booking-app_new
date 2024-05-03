@@ -38,7 +38,6 @@ const BedroomModal: React.FC<BedroomModalProps> = ({ onClose, ind }) => {
 
         // Set updated room details back to form value
         setValue("roomsDetails", roomDetail);
-        console.log("Room detailssss", roomDetail);
       }
 
     };
@@ -87,7 +86,7 @@ const BedroomModal: React.FC<BedroomModalProps> = ({ onClose, ind }) => {
         >
           <IoCloseSharp size={34} style={{ color: '#333' }} className="hover:bg-gray-200 p-1 rounded-full"/> {/* Cross icon */}
         </div>
-        <div className='p-6' style={{ width: '600px' }}> 
+        <div className='p-6' > 
           <div className="font-semibold text-3xl mb-2">Bedroom</div>
           <div className="text-gray text-md text-gray-800 mb-12">The number of beds in each advert is based on these choices.</div>
           <ul className="mt-4 border-b border-gray-300" style={{ overflowY: 'auto', maxHeight: '400px'  }}> {/* Set max height and overflow auto */}

@@ -23,6 +23,9 @@ const SearchResultsCard = ({ property }: Props) => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+    // Dummy function that does nothing
+    const dummyFunction = () => {};
+
     const handleExpandClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setIsFullScreen(true);
@@ -46,7 +49,7 @@ const SearchResultsCard = ({ property }: Props) => {
             <div className="w-full h-[300px] rounded-md relative overflow-hidden grid grid-cols-[3fr] gap-4"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}>
-                <ImageCarousel imageUrls={property.imageUrls} isHovered={isHovered}/>
+                <ImageCarousel imageUrls={property.imageUrls} isHovered={isHovered} Delete={false} indexFound={0} onCarouselDataChange={dummyFunction}/>
                     <div className="absolute bottom-4 right-4">
                         <button onClick={handleExpandClick} className="text-white bg-black bg-opacity-30 rounded-md p-2 hover:bg-opacity-60 z-99">
                             <CgArrowsExpandRight className="h-4 w-4" />

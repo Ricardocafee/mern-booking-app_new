@@ -29,6 +29,7 @@ const ImageSection = () => {
                 )}
 
                 <input 
+                
                 type="file"
                 multiple
                 accept="image/*"

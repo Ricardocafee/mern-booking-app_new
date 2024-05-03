@@ -42,7 +42,6 @@ const EditProperty = () => {
 
     const handleSave = (propertyFormData: FormData, state: string) => {
 
-        console.log("Property State", state)
         if (state === "Deactivated") {
             // Call delete mutation if propertyId is defined
             propertyId && deleteProperty(propertyId);

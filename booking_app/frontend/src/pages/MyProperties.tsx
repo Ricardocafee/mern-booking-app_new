@@ -11,7 +11,8 @@ const MyProperties = () => {
     const { data: properties } = useQuery("fetchQuery", () => apiClient.fetchProperties());
     const [isHovered, setIsHovered] = useState(false);
 
-
+    // Dummy function that does nothing
+    const dummyFunction = () => {};
 
     if (!properties) {
         return <span>No Properties found</span>;
@@ -29,7 +30,7 @@ const MyProperties = () => {
                         <div className="lg:w-1/3 relative" 
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}>
-                            <ImageCarousel imageUrls={property.imageUrls} isHovered={isHovered} />
+                            <ImageCarousel imageUrls={property.imageUrls} isHovered={isHovered} Delete={false} indexFound={0} onCarouselDataChange={dummyFunction}/>
                                 
                                
                         </div>

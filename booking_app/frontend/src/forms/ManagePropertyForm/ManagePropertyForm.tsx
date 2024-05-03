@@ -39,7 +39,8 @@ export type RoomDetails = {
     counter: number;
     beds: BedType[];
     bathroomIncluded: boolean;
-    imageUrls: string[],
+    imageUrls: string[];
+    imageFiles: FileList;
 }
 
 export type PropertyFormData = {
@@ -118,19 +119,30 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         });
 
         formDataJson.roomsDetails.forEach((room, index) => {
-            console.log("room Details", room)
             formData.append(
             `roomsDetails[${index}][counter]`,
             room.counter?.toString() ?? '0'
             );
             formData.append(`roomsDetails[${index}][type]`, room.type);
-            console.log("Testtttt");
             formData.append(`roomsDetails[${index}][bathroomIncluded]`, room.bathroomIncluded ? "true" : "false");
             if (room.beds) {
             room.beds.forEach((bed, idx)=>{
                 formData.append(`roomsDetails[${index}][beds][${idx}][type]`, bed.type);
                 formData.append(`roomsDetails[${index}][beds][${idx}][counter]`, bed.counter.toString());
             })
+            }
+            if (room.imageUrls) {
+            room.imageUrls.forEach((image, idx)=>{
+                formData.append(`roomsDetails[${index}][imageUrls][${idx}]`, image);
+            })
+            }
+
+            if (formDataJson.roomsDetails[index].imageFiles) {
+            }
+            if (formDataJson.roomsDetails[index].imageFiles) {
+                Array.from(formDataJson.roomsDetails[index].imageFiles).forEach((imageFile) => {
+                    formData.append(`roomsDetails[${index}][imageFiles]`, imageFile);
+                });
             }
         });
 
