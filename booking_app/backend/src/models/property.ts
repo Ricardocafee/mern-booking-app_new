@@ -45,6 +45,16 @@ const bookingSchema = new mongoose.Schema<BookingType>({
     totalCost: {type: Number, required: true},
 });
 
+const checkInSchema = new mongoose.Schema({
+    startTime: {type: String, required: true},
+    endTime: {type: String, required: true},
+})
+
+const wifiSchema = new mongoose.Schema({
+    name: {type: String},
+    password: {type: String},
+})
+
 const propertySchema = new mongoose.Schema<PropertyType>({
     userId: { type: String, required: true },
     name: { type: String, required: true },
@@ -67,6 +77,12 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
     lastUpdated: { type: Date, required: true },
+    checkIn: checkInSchema,
+    checkOut: { type: String, required: true },
+    howtoArrive: { type: String},
+    wifi: wifiSchema,
+    houseManual: { type: String},
+    checkInMethod: { type: String, required: true },
     bookings: [bookingSchema],
 });
 

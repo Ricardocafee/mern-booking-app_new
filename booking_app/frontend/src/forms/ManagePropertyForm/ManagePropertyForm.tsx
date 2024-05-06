@@ -6,9 +6,15 @@ import GuestsSection from "./GuestsSection";
 import ImageSection from "./ImagesSection";
 import StateSection from "./StateSection";
 import { PropertyType } from "../../../../backend/src/shared/types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MapSection from "./MapSection";
 import RoomsSection from "./RoomsSection";
+import  "../../effects/SelectionButtons.css"
+import TimesSection from "./TimesSection";
+import HowtoArriveSection from "./HowtoArrive";
+import CheckInMethodSection from "./CheckInMethodSection";
+import WifiSection from "./WifiSection";
+import HouseManualSection from "./HouseManualSection";
 
 export type RoomSchema = {
     type: string;
@@ -43,6 +49,16 @@ export type RoomDetails = {
     imageFiles: FileList;
 }
 
+export type CheckIn = {
+    startTime: string;
+    endTime: string;
+}
+
+export type Wifi = {
+    name: string;
+    password: string;
+}
+
 export type PropertyFormData = {
     name: string;
     city: string;
@@ -65,6 +81,12 @@ export type PropertyFormData = {
     childCount: number;
     latitude: number;
     longitude: number;
+    checkIn: CheckIn;
+    checkOut: string;
+    howtoArrive: string;
+    checkInMethod: string;
+    wifi: Wifi;
+    houseManual: string;
 };
 
 type Props = {
@@ -76,10 +98,22 @@ type Props = {
 const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
     const formMethods = useForm<PropertyFormData>();
     const { handleSubmit, reset } = formMethods;
+    const [ showSections, setShowSections ] = useState(true);
 
     useEffect(() => {
         reset(property);
     }, [property, reset]);
+
+    const toggleSection = (section: string) => {
+        if (section === 'details') {
+            setShowSections(true)
+        } else if( section === 'map' ) {
+            setShowSections(false)
+        }
+    };
+
+    
+
 
     const onSubmit = handleSubmit((formDataJson: PropertyFormData)=>{
         // create new FormData object && call our API
@@ -102,6 +136,16 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("childCount", formDataJson.childCount.toString());
         formData.append("latitude", formDataJson.latitude.toString());
         formData.append("longitude", formDataJson.longitude.toString());
+        formData.append("checkIn[startTime]", formDataJson.checkIn.startTime);
+        formData.append("checkIn[endTime]", formDataJson.checkIn.endTime);
+        formData.append("checkOut", formDataJson.checkOut);
+        formData.append("howtoArrive", formDataJson.howtoArrive);
+        formData.append("checkInMethod", formDataJson.checkInMethod);
+
+        formData.append("wifi[name]", formDataJson.wifi.name);
+        formData.append("wifi[password]", formDataJson.wifi.password);
+
+        formData.append("houseManual", formDataJson.houseManual);
 
         // Type Property
         formData.append("type[spaceType]", formDataJson.type.spaceType);
@@ -168,14 +212,37 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
     return (
         <FormProvider {...formMethods}>
         <form className="flex flex-col gap-10" onSubmit={onSubmit}>
-            <DetailsSection/>
-            <StateSection/>
-            <TypeSection/>
-            <RoomsSection/>
-            <FacilitiesSection/>
-            <GuestsSection/>
-            <ImageSection/>
-            <MapSection/>
+        <h1 className="text-3xl font-bold mb-3">Add Property</h1>
+            <div className="p-2 gap-1 grid grid-cols-2 w-[300px] h-[43px] rounded-3xl items-center justify-center" style={{ backgroundColor: '#f2f2f2' }}>
+                    <div 
+                        className={`flex justify-center items-center text-lg font-semibold rounded-2xl ${showSections ? 'fixedEffect' : 'hoverEffect'}`} 
+                        
+                        onClick={() => toggleSection("details")}
+                    >
+                    Your space</div>
+                    <div className={`flex justify-center items-center text-lg font-semibold rounded-2xl ${!showSections ? 'fixedEffect' : 'hoverEffect'}`}  onClick={() => toggleSection("map")}>Arrival guide</div>
+            </div>
+            { showSections && 
+                <div className="section-container">
+                    <DetailsSection/>
+                    <StateSection/>
+                    <TypeSection/>
+                    <RoomsSection/>
+                    <FacilitiesSection/>
+                    <GuestsSection/>
+                    <ImageSection/>
+                    <MapSection/>
+                </div>
+            }
+            { !showSections && 
+                <div className="section-container">
+                    <TimesSection/>
+                    <HowtoArriveSection/>
+                    <CheckInMethodSection/>
+                    <WifiSection/>
+                    <HouseManualSection/>
+                </div>
+            }
             <span className="flex justify-end">
                 <button
                 disabled={isLoading}

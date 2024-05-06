@@ -33,6 +33,11 @@ router.post(
         body("transport").notEmpty().withMessage('Means of transport is required'),
         body("latitude").notEmpty().withMessage('Latitude is required'),
         body("longitude").notEmpty().withMessage('Longitude is required'),
+        body("checkIn.startTime").notEmpty().withMessage('Start time of check-in is required'),
+        body("checkIn.endTime").notEmpty().withMessage('End time of check-in is required'),
+        body("checkOut").notEmpty().withMessage('Check-Out is required'),
+        body("howtoArrive").notEmpty().withMessage('Description of how to arrive to the location required'),
+        body("checkInMethod").notEmpty().withMessage('Check-in method required'),
 
         body("roomsDetails")
         .notEmpty()

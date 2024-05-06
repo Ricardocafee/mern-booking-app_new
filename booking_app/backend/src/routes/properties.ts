@@ -179,6 +179,7 @@ function constructSearchQuery(queryParams: any) {
     if(queryParams.state) {
       constructedQuery.state = queryParams.state;
     }
+
   
     if (queryParams.adultCount) {
       constructedQuery.adultCount = {
@@ -218,6 +219,41 @@ function constructSearchQuery(queryParams: any) {
       constructedQuery.longitude = {
         $gte: parseInt(queryParams.longitude),
       };
+    }
+
+    if(queryParams.checkIn) {
+      if(queryParams.checkIn.startTime) {
+        constructedQuery.checkIn.startTime = queryParams.checkIn.startTime;
+      }
+      if(queryParams.checkIn.endTime) {
+        constructedQuery.checkIn.endTime = queryParams.checkIn.endTime;
+      }
+    }
+
+    if(queryParams.checkOut) {
+      constructedQuery.checkOut = queryParams.checkOut;
+    }
+
+    if(queryParams.howtoArrive) {
+      constructedQuery.howtoArrive = queryParams.howtoArrive;
+    }
+
+    if(queryParams.checkInMethod) {
+      constructedQuery.checkInMethod = queryParams.checkInMethod;
+    }
+
+    if(queryParams.wifi) {
+      if (queryParams.wifi.name) {
+        constructedQuery.wifi.name = queryParams.name.wifi;
+      }
+
+      if (queryParams.wifi.password) {
+        constructedQuery.wifi.password = queryParams.name.password;
+      }
+    }
+
+    if (queryParams.houseManual) {
+      constructedQuery.houseManual = queryParams.houseManual;
     }
 
     if (queryParams.ranking) {

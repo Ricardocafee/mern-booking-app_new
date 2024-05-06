@@ -8,7 +8,7 @@ const DetailsSection = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold mb-3">Add Property</h1>
+            <h2 className="text-2xl font-bold mb-3">Main information</h2>
             <label className="text-gray-700 text-sm font-bold flex-1">
                 <div className="mb-2">
                     Title

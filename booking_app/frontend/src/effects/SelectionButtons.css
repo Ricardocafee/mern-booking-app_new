@@ -1,0 +1,21 @@
+.hoverEffect {
+    cursor: pointer;
+    background-color: "white";
+}
+
+.hoverEffect:hover {
+    background-color: #DEE0E4;
+}
+
+.fixedEffect {
+    cursor: pointer;
+    background-color: #BABCBF;
+}
+
+.fixedEffect:hover {
+    background-color: #BABCBF;
+}
+
+.section-container > *:not(:last-child) {
+    margin-bottom: 50px; /* Adjust as needed */
+}

@@ -5,7 +5,7 @@ import { moreLikeSpace, TypeProperty, AdType } from "../../config/property-optio
 import { useEffect, useState } from "react";
 
 const TypeSection = () => {
-    const { register, getValues, setValue, watch} = useFormContext<PropertyFormData>();
+    const { register, setValue, watch} = useFormContext<PropertyFormData>();
     const { type, state } = watch(); 
     const [renderComponent, setRenderComponent] = useState(false);
 
@@ -43,9 +43,7 @@ const TypeSection = () => {
 
     const handleSpaceType = (option: string) => {
       // Do something with the selected option, such as storing it in state
-      console.log(option)
       setValue("type.spaceType", option)
-      console.log(getValues());
     };
     const handlePropertyType = (option: string) => {
       // Do something with the selected option, such as storing it in state
@@ -69,7 +67,7 @@ const TypeSection = () => {
                         Which is more like your space?
             </label>
           </div>
-          <TypePropertyOptions options={moreLikeSpace} initialOption={type?.spaceType || ''} onSelectOption={handleSpaceType} />
+          <TypePropertyOptions options={moreLikeSpace} initialOption={type?.spaceType || ''} onSelectOption={handleSpaceType} originFunction="Type"/>
       </div>
       <div>
       <div className="mb-2">
@@ -77,7 +75,7 @@ const TypeSection = () => {
                     What is the type of the property?
           </label>
       </div>
-      <TypePropertyOptions options={TypeProperty} initialOption={type?.propertyType|| ''} onSelectOption={handlePropertyType}/>
+      <TypePropertyOptions options={TypeProperty} initialOption={type?.propertyType|| ''} onSelectOption={handlePropertyType} originFunction="Type"/>
       </div>  
       <div>
         <div className="mb-2">
@@ -85,7 +83,7 @@ const TypeSection = () => {
                           What is the type of the ad?
           </label>
         </div>
-      <TypePropertyOptions options={AdType} initialOption={type?.adType || ''} onSelectOption={handleAdType}/>
+      <TypePropertyOptions options={AdType} initialOption={type?.adType || ''} onSelectOption={handleAdType} originFunction="Type"/>
       </div>
       <div>
       <div className="mb-2">

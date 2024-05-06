@@ -175,8 +175,6 @@ export const register = async (formData: RegisterFormData) => {
   export type SearchParams = {
     destination?: string;
     state?: string;
-    checkIn?: string;
-    checkOut?: string;
     adultCount?: string;
     childCount?: string;
     page?: string;
@@ -194,8 +192,6 @@ export const register = async (formData: RegisterFormData) => {
     const queryParams = new URLSearchParams();
     queryParams.append("destination", searchParams.destination || "");
     queryParams.append("state", searchParams.state || "");
-    queryParams.append("checkIn", searchParams.checkIn || "");
-    queryParams.append("checkOut", searchParams.checkOut || "");
     queryParams.append("adultCount", searchParams.adultCount || "");
     queryParams.append("childCount", searchParams.childCount || "");
     queryParams.append("page", searchParams.page || "");

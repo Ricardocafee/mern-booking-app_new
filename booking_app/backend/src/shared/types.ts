@@ -27,6 +27,16 @@ export type RoomDetail = {
     imageUrls: string[];
 }
 
+export type CheckIn = {
+    startTime: string;
+    endTime: string;
+}
+
+export type WifiSchema = {
+    name: string;
+    password: string;
+}
+
 
 export type PropertyType = {
     _id: string;
@@ -48,6 +58,12 @@ export type PropertyType = {
     facilities: TypeFacilities[];
     pricePerNight: number;
     imageUrls: string[];
+    checkIn: CheckIn;
+    checkOut: string;
+    howtoArrive: string;
+    checkInMethod: string;
+    wifi: WifiSchema;
+    houseManual: string;
     latitude: number;
     longitude: number;
     lastUpdated: Date;
