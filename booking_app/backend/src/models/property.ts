@@ -55,6 +55,11 @@ const wifiSchema = new mongoose.Schema({
     password: {type: String},
 })
 
+const houseRulesSchema = new mongoose.Schema({
+    name: {type: String},
+    allowed: {type: String},
+})
+
 const propertySchema = new mongoose.Schema<PropertyType>({
     userId: { type: String, required: true },
     name: { type: String, required: true },
@@ -82,6 +87,10 @@ const propertySchema = new mongoose.Schema<PropertyType>({
     howtoArrive: { type: String},
     wifi: wifiSchema,
     houseManual: { type: String},
+    houseRules: [houseRulesSchema],
+    addedRule: { type: String, required: true },
+    noGuests: { type: Number, required: true },
+    immediateBooking: { type: Boolean },
     checkInMethod: { type: String, required: true },
     bookings: [bookingSchema],
 });

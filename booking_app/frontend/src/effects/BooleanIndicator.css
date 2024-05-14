@@ -1,0 +1,29 @@
+.circle-plus {
+    width: 40px;
+    height: 40px;
+    color: #505050;
+    transition: color 0.3s ease; /* Adding transition for smooth effect */
+    border-radius: 50%;
+    border: 40px;
+    background-color: white;
+    clip-path: circle(41% at center);
+    overflow: hidden;
+}
+
+.circle-plus:hover,
+.circle-plus.selected:hover {
+    color: black;
+    border: 1000px;
+     transition: color 0.4s ease;
+}
+
+.circle-plus.selected {
+    color: black;
+    filter: invert(1);
+    transition: color 0.7s ease;
+}
+
+.circle-minus-disabled {
+    color: black;
+    filter: invert(1);
+}

@@ -4,7 +4,15 @@ import CheckInInformation from "../../components/OnlyCheckInInfo"
 
 const WifiSection = () => {
 
-    const { register} = useFormContext<PropertyFormData>();
+    const { register, watch, setValue} = useFormContext<PropertyFormData>();
+
+    if (watch("wifi.name") === "null"){
+        setValue("wifi.name", "")
+    }
+
+    if (watch("wifi.password") === "null"){
+        setValue("wifi.password", "")
+    }
 
     return (
         <div>

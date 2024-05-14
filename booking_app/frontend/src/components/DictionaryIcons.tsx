@@ -199,6 +199,7 @@ export const iconMap: { [key: string]: JSX.Element } = {
     "Breakfast Included": <img src={breakfastIncludedImage} className="mr-3" style={{ width: "35px", height: "35px" }} />,
     "Cleaning available during stay": <MdCleaningServices className="mr-3" style={{ fontSize: "35px" }}/>,
     "Long-term stays permitted": <img src={longtermStayImage} className="mr-3" style={{ width: "35px", height: "35px" }} />,
+
 };
 
 // Function to render the icon based on the provided key

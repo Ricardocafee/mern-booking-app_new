@@ -4,12 +4,17 @@ import CheckInInformation from "../../components/OnlyCheckInInfo"
 
 const HouseManualSection = () => {
 
-    const { register, formState: {errors}} = useFormContext<PropertyFormData>();
+    const { register, watch, setValue, formState: {errors}} = useFormContext<PropertyFormData>();
+
+    if (watch("houseManual") === "null"){
+        setValue("houseManual", "")
+    }
+
 
     return (
         <>
             <div>
-            <h2 className="text-2xl font-bold mb-7">House Manual</h2>
+            <h2 className="text-2xl font-bold mb-7">House manual</h2>
             <label className="text-gray-700 text-sm font-bold flex-1">
                     <textarea
                     rows={6}

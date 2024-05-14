@@ -61,7 +61,6 @@ const SpaceEdit = () => {
         const roomDetail = watch("roomsDetails");
         const updatedRooms: RoomDetails[] = [...roomDetail];
 
-        console.log("Index found bath", index_);
         if (index_ !== -1) {
             updatedRooms[index_].bathroomIncluded = checked;
             setValue("roomsDetails", updatedRooms);
@@ -142,7 +141,6 @@ const SpaceEdit = () => {
                             <div className="border-b border-gray-300 mt-5"></div>
                                 <div className="flex justify-between mt-5">
                                     <div>It has an attached private bathroom</div>
-                                    {console.log("Index ofun here", indexFound)};
                                     <Switch
                                         checked={roomDetail[indexFound].bathroomIncluded}
                                         onColor="#86d3ff"

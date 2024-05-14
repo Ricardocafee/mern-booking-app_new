@@ -39,7 +39,7 @@ const ProjectDescription: React.FC<Props> = ({ name, description, length }) => {
                 transition: 'color 0.3s ease', // Smooth transition effect
               }}
             >
-              <span>{showFullDescription ? 'Show less' : 'Show more'}</span>
+              <span>{showFullDescription ? 'Show more' : 'Show more'}</span>
             </button>
             <MdKeyboardArrowRight className='ml-1 mt-0.5' style={{ fontSize: "22px" }}/>
             </div>

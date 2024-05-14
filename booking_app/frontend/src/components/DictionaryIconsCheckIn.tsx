@@ -1,7 +1,7 @@
 //Icons
 import { BsSafe } from "react-icons/bs";
 import { FaPeopleGroup } from "react-icons/fa6";
-
+import "../effects/DiagLine.css"
 import smartLockImage from "../../../images/smartLock.svg"
 import numericKeypadImage from "../../../images/numericKeypad.png"
 import handOverImage from "../../../images/handOver.png"

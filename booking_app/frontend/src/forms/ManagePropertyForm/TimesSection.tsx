@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 import TypePropertyOptions from "../../components/TypePropertyOptions";
 import { checkInStartTimes, checkInEndTimes, checkOutTimes } from "../../config/time-options-config";
 import { PropertyFormData } from "./ManagePropertyForm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const TimesSection = () => {
 
@@ -10,14 +10,12 @@ const TimesSection = () => {
     const checkIn_start = watch("checkIn.startTime"); 
     const checkIn_end = watch("checkIn.endTime"); 
     const checkOut = watch("checkOut"); 
-    const [renderComponent, setRenderComponent] = useState(false);
 
     useEffect(() => {
-        const delay = 400; // Adjust the delay time as needed
+        const delay = 0; // Adjust the delay time as needed
         const timeout = setTimeout(() => {
             // Use the type values here after the delay
             // You can perform any actions here that require the type values
-            setRenderComponent(true); // Set to render the component after timeout
     
             if (!checkIn_start || checkIn_start === 'undefined') {
                 // Set a default value for type.spaceType if it is still undefined
@@ -34,7 +32,6 @@ const TimesSection = () => {
         const timeout = setTimeout(() => {
             // Use the type values here after the delay
             // You can perform any actions here that require the type values
-            setRenderComponent(true); // Set to render the component after timeout
     
             if (!checkIn_end || checkIn_end === 'undefined') {
                 // Set a default value for type.spaceType if it is still undefined
@@ -61,7 +58,6 @@ const TimesSection = () => {
 
     return (
         <>
-            {renderComponent && 
             <>
                 <div>
                     <h2 className="text-2xl font-bold mb-7">Check-in and check-out times</h2>
@@ -85,7 +81,6 @@ const TimesSection = () => {
                 </div>
                 
             </>
-            }
         </>
     );
 };

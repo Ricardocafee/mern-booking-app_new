@@ -177,6 +177,7 @@ export const register = async (formData: RegisterFormData) => {
     state?: string;
     adultCount?: string;
     childCount?: string;
+    noGuests?: string;
     page?: string;
     ranking?: string;
     facilities?: TypeFacilities[];
@@ -194,6 +195,7 @@ export const register = async (formData: RegisterFormData) => {
     queryParams.append("state", searchParams.state || "");
     queryParams.append("adultCount", searchParams.adultCount || "");
     queryParams.append("childCount", searchParams.childCount || "");
+    queryParams.append("noGuests", searchParams.noGuests || "");
     queryParams.append("page", searchParams.page || "");
 
     queryParams.append("maxPrice", searchParams.maxPrice || "");

@@ -2,7 +2,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import DetailsSection from "./DetailsSection";
 import TypeSection from "./TypeSection";
 import FacilitiesSection from "./FacilitiesSection";
-import GuestsSection from "./GuestsSection";
 import ImageSection from "./ImagesSection";
 import StateSection from "./StateSection";
 import { PropertyType } from "../../../../backend/src/shared/types";
@@ -15,6 +14,8 @@ import HowtoArriveSection from "./HowtoArrive";
 import CheckInMethodSection from "./CheckInMethodSection";
 import WifiSection from "./WifiSection";
 import HouseManualSection from "./HouseManualSection";
+import RulesSection from "./RulesSection";
+import ImmediateBookSection from "./ImmediateBookSection";
 
 export type RoomSchema = {
     type: string;
@@ -59,6 +60,11 @@ export type Wifi = {
     password: string;
 }
 
+export type HouseRules = {
+    name: string;
+    allowed: string;
+}
+
 export type PropertyFormData = {
     name: string;
     city: string;
@@ -87,6 +93,10 @@ export type PropertyFormData = {
     checkInMethod: string;
     wifi: Wifi;
     houseManual: string;
+    houseRules: HouseRules[];
+    addedRule: string | null ;
+    immediateBooking: boolean;
+    noGuests: number;
 };
 
 type Props = {
@@ -141,11 +151,43 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
         formData.append("checkOut", formDataJson.checkOut);
         formData.append("howtoArrive", formDataJson.howtoArrive);
         formData.append("checkInMethod", formDataJson.checkInMethod);
+        formData.append("noGuests", formDataJson.noGuests.toString());
 
-        formData.append("wifi[name]", formDataJson.wifi.name);
-        formData.append("wifi[password]", formDataJson.wifi.password);
+        if (formDataJson.wifi) {
+            if (formDataJson.wifi.name) {
+                formData.append("wifi[name]", formDataJson.wifi.name);
+            } else {
+                formData.append("wifi[name]", "null");
+            }
+            if (formDataJson.wifi.password) {
+                formData.append("wifi[password]", formDataJson.wifi.password);
+            } else {
+                formData.append("wifi[password]", "null");
+            }
+        }
 
-        formData.append("houseManual", formDataJson.houseManual);
+        if (formDataJson.houseManual) {
+            formData.append("houseManual", formDataJson.houseManual);
+        } else {
+            formData.append("houseManual", "null");
+        }
+
+        if (formDataJson.addedRule) {      
+            formData.append("addedRule", formDataJson.addedRule);
+        } else {
+            formData.append("addedRule", "null");
+        }
+
+        console.log("Foem data", formDataJson)
+
+        formData.append("immediateBooking", formDataJson.immediateBooking ? "true" : "false");
+
+
+        formDataJson.houseRules.forEach((rule, index)=>{
+            formData.append(`houseRules[${index}][name]`, rule.name);
+            formData.append(`houseRules[${index}][allowed]`, rule.allowed);
+        });
+
 
         // Type Property
         formData.append("type[spaceType]", formDataJson.type.spaceType);
@@ -202,9 +244,13 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
             });
         }
 
+        if (formDataJson.imageFiles) {
         Array.from(formDataJson.imageFiles).forEach((imageFile)=>{
             formData.append(`imageFiles`, imageFile);
         });
+        }
+
+        console.log("Tesssstt", formData)
 
         onSave(formData, formDataJson.state);
     });
@@ -229,7 +275,6 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
                     <TypeSection/>
                     <RoomsSection/>
                     <FacilitiesSection/>
-                    <GuestsSection/>
                     <ImageSection/>
                     <MapSection/>
                 </div>
@@ -241,6 +286,8 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
                     <CheckInMethodSection/>
                     <WifiSection/>
                     <HouseManualSection/>
+                    <RulesSection/>
+                    <ImmediateBookSection/>
                 </div>
             }
             <span className="flex justify-end">

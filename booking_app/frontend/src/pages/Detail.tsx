@@ -8,8 +8,13 @@ import { CiLocationOn } from "react-icons/ci";
 import ProjectDescription from "../components/PropertyDescription";
 import { IoMdStar } from "react-icons/io";
 import { renderIconByKey } from "../components/DictionaryIcons";
+import { renderIconByKeyRule } from "../components/DictionaryIconsRules";
 import { propertyImportant } from "../config/property-options-config";
 import { IoCloseSharp } from "react-icons/io5";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import { CiClock2 } from "react-icons/ci";
+import { BsFillPeopleFill } from "react-icons/bs";
+import { TfiNotepad } from "react-icons/tfi";
 
 
 const Detail = () => {
@@ -18,6 +23,31 @@ const Detail = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [showFullDescription, setShowFullDescription] = useState(false);
+
+    const renderRulesLabel = (ruleType: string, allowedType: string) => {
+    if (ruleType === "Pets allowed" && allowedType === 'allowed') {
+        return "Pets allowed"
+    } else if (ruleType === "Pets allowed" && allowedType === 'disallowed'){
+        return "Pets are not allowed";
+    } else if (ruleType === "Events allowed" && allowedType === 'allowed'){
+        return "Events allowed";
+    } else if (ruleType === "Events allowed" && allowedType === 'disallowed'){
+        return "Events are not allowed";
+    } else if (ruleType === "Smoking, vapourising and the use of electronic cigarettes are allowed" && allowedType === 'allowed'){
+        return "Smoking is allowed";
+    } else if (ruleType === "Smoking, vapourising and the use of electronic cigarettes are allowed" && allowedType === 'disallowed'){
+        return "Smoking is not allowed";
+    } else if (ruleType === "Quiet time" && allowedType === 'allowed'){
+        return "Quiet time after 10pm";
+    } else if (ruleType === "Quiet time" && allowedType === 'disallowed'){
+        return "There is no quiet time";
+    } else if (ruleType === "Commercial photography and filming allowed" && allowedType === 'allowed'){
+        return "Commercial photography and filming allowed";
+    } else if (ruleType === "Commercial photography and filming allowed" && allowedType === 'disallowed'){
+        return "Commercial photography and filming are not allowed";
+    }
+    };
 
     const renderFacilityTypeLabel = (facilityType: string) => {
     if (facilityType === "BedroomLaundry") {
@@ -33,7 +63,7 @@ const Detail = () => {
     } else {
         return facilityType;
     }
-};
+    };
 
 
     const { data: property } = useQuery("fetchPropertyById", () =>
@@ -71,6 +101,10 @@ const Detail = () => {
     // Function to toggle modal visibility
     const toggleModal = () => {
         setShowModal(!showModal);
+    };
+
+    const toggleFull = () => {
+        setShowFullDescription(!showFullDescription);
     };
 
 
@@ -289,6 +323,57 @@ const Detail = () => {
                 loading="lazy"
             ></iframe>
             </div>
+            <div className="font-bold text-xl mb-5 mt-10">
+            Things to know
+            </div>
+            <div className="grid grid-cols-3 gap-14">
+            <div>
+            <div className="font-bold mb-5">
+                Home rules
+            </div>
+            <div>
+           <div className="mb-3 flex">
+           <div className="font-semibold">
+                    Check-in
+            </div>
+                    : Between {property.checkIn.startTime} and {property.checkIn.endTime}
+            </div>
+           <div className="flex">
+            <div className="font-semibold">
+                    Check-out</div>: Until {property.checkOut}
+            </div>
+            <div className="mt-3 flex">
+                <div className="font-semibold">
+                    Number of guests
+                </div>
+                : Maximum of {property.noGuests} guests
+            </div>
+            <div className="flex mt-4 align-center">
+                <button
+                onClick={toggleFull}
+                className='font-bold'
+                style={{
+                    textDecoration: 'underline',
+                    color: 'black',
+                    cursor: 'pointer',
+                    transition: 'color 0.3s ease', // Smooth transition effect
+                }}
+                >
+                <span>{showFullDescription ? 'Show more' : 'Show more'}</span>
+                </button>
+                <MdKeyboardArrowRight className='ml-1 mt-0.5' style={{ fontSize: "22px" }}/>
+            </div>
+            </div>
+            </div>
+            <div>
+                <div className="font-bold mb-5">
+                    Property and security
+                </div>
+                <div>
+
+                </div>
+            </div>
+           </div>
             <div>
                 {isFullScreen && (
                     <ImageFullScreen
@@ -316,6 +401,100 @@ const Detail = () => {
                             ></iframe>
                             <button className="bg-blue-600 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-500 transition" onClick={closeMapModal}>Close</button>
                         </div>
+                    </div>
+                )}
+                {showFullDescription && (
+                    <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark transparent background
+                        zIndex: 9999,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                    onClick={toggleFull} // Close modal when clicking outside
+                    >
+                    <div
+                        style={{
+                        backgroundColor: '#fff',
+                        padding: '20px',
+                        borderRadius: '8px',
+                        maxWidth: '80%',
+                        maxHeight: '80%',
+                        overflow: 'auto',
+                        }}
+                        onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside
+                    >
+                    <div className="flex justify-end cursor-pointer">
+                    <div style={{ transition: 'color 0.3s' }} className="hover:bg-gray-200 p-1 rounded-full" onClick={toggleFull}>
+                                <IoCloseSharp size={24} style={{ color: '#333' }} /> {/* Cross icon */}
+                    </div>
+                    </div>
+                    <div className='p-6'> 
+                        <h2 className='font-bold text-2xl pb-8 border-b border-gray-300'>Home rules</h2>
+                        <h1 className='text-1xl mt-5'>You will be staying in someone's house, so treat it with care and respect.</h1>
+                        <p className='mt-10 mb-6 text-1xl font-semibold'>
+                            Check in and check out 
+                        </p>
+                        <div className="mt-4 flex items-center">
+                            <CiClock2 size={34}/>
+                            <div className="ml-4">
+                                Check-in: Between {property.checkIn.startTime} and {property.checkIn.endTime}
+                            </div>
+                        </div>
+                        <div className="mt-6 border-b border-gray-300">
+                        </div>
+                        <div className="mt-4 flex items-center">
+                            <CiClock2 size={34}/>
+                            <div className="ml-4">
+                                Check-out: Until {property.checkOut}
+                            </div>
+                        </div>
+                        <p className='mt-10 mb-7 text-1xl font-semibold'>
+                            During your stay 
+                        </p>
+                        {property.houseRules.map((rule) => {
+                            if(rule.name) {
+                                return (
+                                    <div>
+                                    <div className="flex items-center gap-5 mb-4">
+                                    {renderIconByKeyRule(rule.name, rule.allowed)}
+                                    {renderRulesLabel(rule.name, rule.allowed)}
+                                    </div>
+                                    <div className="mb-4 border-b border-gray-300">
+                                    </div>
+                                    </div>
+                                )
+                            }
+                        })}
+                        {property.addedRule !== 'null' && property.addedRule !== '' && 
+                        <div>
+                            <div className="flex gap-8 ml-1 items-center">
+                                <TfiNotepad style={{ fontSize: "30px"}}/>
+                                <div>
+                                    Added rules
+                                    <div className="text-sm text-gray-800">
+                                        {property.addedRule}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="border-b border-gray-300 mt-4">
+
+                            </div>
+                        </div>
+                        }
+                        <div className="flex gap-8 ml-1 items-center mt-4">
+                        <BsFillPeopleFill style={{ fontSize: "30px"}}/>
+                            Maximum of {property.noGuests} guests
+                        </div>
+                        
+                    </div>
+                    </div>
                     </div>
                 )}
             </div>

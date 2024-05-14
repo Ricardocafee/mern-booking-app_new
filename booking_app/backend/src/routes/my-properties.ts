@@ -38,6 +38,8 @@ router.post(
         body("checkOut").notEmpty().withMessage('Check-Out is required'),
         body("howtoArrive").notEmpty().withMessage('Description of how to arrive to the location required'),
         body("checkInMethod").notEmpty().withMessage('Check-in method required'),
+        body("noGuests").notEmpty().withMessage('Number of guests required'),
+        
 
         body("roomsDetails")
         .notEmpty()

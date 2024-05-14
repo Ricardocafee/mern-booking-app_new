@@ -242,6 +242,10 @@ function constructSearchQuery(queryParams: any) {
       constructedQuery.checkInMethod = queryParams.checkInMethod;
     }
 
+    if (queryParams.immediateBooking) {
+      constructedQuery.immediateBooking = queryParams.immediateBooking;
+    }
+
     if(queryParams.wifi) {
       if (queryParams.wifi.name) {
         constructedQuery.wifi.name = queryParams.name.wifi;
@@ -254,6 +258,24 @@ function constructSearchQuery(queryParams: any) {
 
     if (queryParams.houseManual) {
       constructedQuery.houseManual = queryParams.houseManual;
+    }
+
+    if (queryParams.houseRules) {
+      if (queryParams.houseRules.name) {
+        constructedQuery.houseRules.name = queryParams.houseRules.name;
+      }
+
+      if (queryParams.houseRules.allowed) {
+        constructedQuery.houseRules.allowed = queryParams.houseRules.allowed;
+      }
+    }
+
+    if (queryParams.addedRule) {
+      constructedQuery.addedRule = queryParams.addedRule;
+    }
+
+    if (queryParams.noGuests) {
+      constructedQuery.noGuests = queryParams.noGuests;
     }
 
     if (queryParams.ranking) {

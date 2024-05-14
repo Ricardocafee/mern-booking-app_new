@@ -115,7 +115,8 @@ const DetailsSection = () => {
           <span className="text-red-500">{errors.description.message}</span>
         )}
       </label>
-      <label className="text-gray-700 text-sm font-bold w-[50%]">
+      <div className="grid grid-cols-2 gap-5">
+      <label className="text-gray-700 text-sm font-bold">
         <div className="mb-2">
         Price Per Night
         </div>
@@ -129,7 +130,7 @@ const DetailsSection = () => {
           <span className="text-red-500">{errors.pricePerNight.message}</span>
         )}
       </label>
-      <label className="text-gray-700 text-sm font-bold w-[50%]">
+      <label className="text-gray-700 text-sm font-bold">
         <div className="mb-2">
         Ranking
         </div>
@@ -145,6 +146,21 @@ const DetailsSection = () => {
           <span className="text-red-500">{errors.ranking.message}</span>
         )}
       </label>
+      <label className="text-gray-700 text-sm font-bold">
+        <div className="mb-2">
+        Number of guests
+        </div>
+        <input
+          type="number"
+          min={1}
+          className="border rounded w-full py-2 px-2 font-normal"
+          {...register("noGuests", { required: "This field is required" })}
+        ></input>
+        {errors.noGuests && (
+          <span className="text-red-500">{errors.noGuests.message}</span>
+        )}
+      </label>
+      </div>
                 
                 </div>
     )

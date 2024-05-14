@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { checkInTypes } from "../../config/checkInMethod-options-config";
+import { checkInTypes } from "../../config/instructions-options-config";
 import "../../effects/CheckInEffect.css";
 import { renderIconByKey } from "../../components/DictionaryIconsCheckIn";
 import { PropertyFormData } from "./ManagePropertyForm";
@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form";
 
 const CheckInMethodSection = () => {
 
-    const { register, getValues, watch } = useFormContext<PropertyFormData>();
+    const { register, getValues } = useFormContext<PropertyFormData>();
 
     // State to keep track of the selected check-in method
     const [selectedMethod, setSelectedMethod] = useState(null || "");
@@ -19,11 +19,6 @@ const CheckInMethodSection = () => {
         }
     }, [getValues]);
 
-    const verifyContent = () => {
-        const value = watch("checkInMethod")
-
-        console.log("Value sad", value)
-    }
 
 
     // Function to handle selection of check-in method
@@ -67,7 +62,6 @@ const CheckInMethodSection = () => {
                             value={method}
                             checked={selectedMethod === method}
                              {...register("checkInMethod", { required: "This field is required"})}
-                            onChange={verifyContent}
                         />
                         {/* Display icon */}
                         {/* Display label */}
