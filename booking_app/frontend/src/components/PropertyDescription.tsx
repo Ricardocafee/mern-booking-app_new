@@ -76,13 +76,13 @@ const ProjectDescription: React.FC<Props> = ({ name, description, length }) => {
               <div className="flex justify-end cursor-pointer">
               <div style={{ transition: 'color 0.3s' }} className="hover:bg-gray-200 p-1 rounded-full" onClick={toggleDescription}>
                         <IoCloseSharp size={24} style={{ color: '#333' }} /> {/* Cross icon */}
-                </div>
-            </div>
+              </div>
+              </div>
                <div className='p-6'> 
                 <h2 className='font-bold text-2xl pb-4 border-b border-gray-300'>{name}</h2>
                 <h1 className='font-bold text-1xl mt-5'>Description</h1>
                 <p className='mt-6'>{description}</p>
-                </div>
+              </div>
               </div>
             </div>
           )}

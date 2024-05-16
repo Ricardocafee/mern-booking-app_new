@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { checkInTypes } from "../../config/instructions-options-config";
 import "../../effects/CheckInEffect.css";
-import { renderIconByKey } from "../../components/DictionaryIconsCheckIn";
+import { renderIconByKey } from "../../components/Dictionary/DictionaryIconsCheckIn";
 import { PropertyFormData } from "./ManagePropertyForm";
 import { useFormContext } from "react-hook-form";
 
@@ -27,20 +27,20 @@ const CheckInMethodSection = () => {
     };
 
     const renderCheckInTypeLabel = (checkInType: string) => {
-    if (checkInType === "Smart lock") {
-        return "Guests will use a code or an app to open a lock connected to Wi-Fi.";
-    } else if (checkInType === "Numeric keypad"){
-        return "Guests will use the code you provide to open an electronic lock.";
-    } else if (checkInType === "Safety deposit box"){
-        return "Guests will use a code provided by you to open a small safe with a previous key.";
-    } else if (checkInType === "Building staff"){
-        return "There is someone available 24 hours a day to welcome guests.";
-    } else if (checkInType === "Personal greetings"){
-        return "Guests will meet you or the host to collect the keys.";
-    }  else {
-        return checkInType;
-    }
-};
+        if (checkInType === "Smart lock") {
+            return "Guests will use a code or an app to open a lock connected to Wi-Fi.";
+        } else if (checkInType === "Numeric keypad"){
+            return "Guests will use the code you provide to open an electronic lock.";
+        } else if (checkInType === "Safety deposit box"){
+            return "Guests will use a code provided by you to open a small safe with a previous key.";
+        } else if (checkInType === "Building staff"){
+            return "There is someone available 24 hours a day to welcome guests.";
+        } else if (checkInType === "Personal greetings"){
+            return "Guests will meet you or the host to collect the keys.";
+        }  else {
+            return checkInType;
+        }
+    };
 
     return (
         <>

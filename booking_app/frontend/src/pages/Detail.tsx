@@ -7,14 +7,19 @@ import { useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import ProjectDescription from "../components/PropertyDescription";
 import { IoMdStar } from "react-icons/io";
-import { renderIconByKey } from "../components/DictionaryIcons";
-import { renderIconByKeyRule } from "../components/DictionaryIconsRules";
+
+import { renderIconByKey } from "../components/Dictionary/DictionaryIcons";
+import { renderIconByKeyRule } from "../components/Dictionary/DictionaryIconsRules";
+import { renderIconByKeySecurity } from "../components/Dictionary/DictionaryIconsSecurity";
+import renderRulesLabel  from "../components/Dictionary/DictionarySecurityLabels";
+
 import { propertyImportant } from "../config/property-options-config";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CiClock2 } from "react-icons/ci";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { TfiNotepad } from "react-icons/tfi";
+import SecurityModal from "../components/SecurityModal";
 
 
 const Detail = () => {
@@ -24,30 +29,9 @@ const Detail = () => {
     const [showMap, setShowMap] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [showFullDescription, setShowFullDescription] = useState(false);
+    const [showPropertyInfo, setShowPropertyInfo] = useState(false);
 
-    const renderRulesLabel = (ruleType: string, allowedType: string) => {
-    if (ruleType === "Pets allowed" && allowedType === 'allowed') {
-        return "Pets allowed"
-    } else if (ruleType === "Pets allowed" && allowedType === 'disallowed'){
-        return "Pets are not allowed";
-    } else if (ruleType === "Events allowed" && allowedType === 'allowed'){
-        return "Events allowed";
-    } else if (ruleType === "Events allowed" && allowedType === 'disallowed'){
-        return "Events are not allowed";
-    } else if (ruleType === "Smoking, vapourising and the use of electronic cigarettes are allowed" && allowedType === 'allowed'){
-        return "Smoking is allowed";
-    } else if (ruleType === "Smoking, vapourising and the use of electronic cigarettes are allowed" && allowedType === 'disallowed'){
-        return "Smoking is not allowed";
-    } else if (ruleType === "Quiet time" && allowedType === 'allowed'){
-        return "Quiet time after 10pm";
-    } else if (ruleType === "Quiet time" && allowedType === 'disallowed'){
-        return "There is no quiet time";
-    } else if (ruleType === "Commercial photography and filming allowed" && allowedType === 'allowed'){
-        return "Commercial photography and filming allowed";
-    } else if (ruleType === "Commercial photography and filming allowed" && allowedType === 'disallowed'){
-        return "Commercial photography and filming are not allowed";
-    }
-    };
+
 
     const renderFacilityTypeLabel = (facilityType: string) => {
     if (facilityType === "BedroomLaundry") {
@@ -70,6 +54,8 @@ const Detail = () => {
         apiClient.fetchPropertyById(propertyId as string), {
         enabled: !!propertyId,
     });
+
+    
 
     if (!property) {
         return <></>;
@@ -106,6 +92,16 @@ const Detail = () => {
     const toggleFull = () => {
         setShowFullDescription(!showFullDescription);
     };
+
+    const togglePropertyInfo = () => {
+        setShowPropertyInfo(!showPropertyInfo);
+    };
+
+    const combinedArray = [
+    ...property.securityGuests.securityConditions.filter(security => security.allowed === 'allowed'),
+    ...property.securityGuests.securityDevices.filter(security => security.allowed === 'allowed'),
+    ...property.securityGuests.propertyInfo.filter(security => security.allowed === 'allowed')
+];
 
 
     return (
@@ -167,7 +163,7 @@ const Detail = () => {
                             if (facility !== 'false') {
                                 return (
                                     <div>
-                                <div className="flex mb-6">
+                                <div className="flex mb-6 items-center">
                                     {renderIconByKey(facility)}
                                     {facility}
                                 </div>
@@ -369,9 +365,28 @@ const Detail = () => {
                 <div className="font-bold mb-5">
                     Property and security
                 </div>
-                <div>
+                 
+                {combinedArray.slice(0, 5).map((security, index) => (
+                    <div key={index} className="mb-4"> {/* Add margin-bottom for spacing */}
+                        {renderRulesLabel(security.name, security.allowed)}
+                    </div>
+                ))}
 
-                </div>
+                <div className="flex mt-4 align-center">
+                <button
+                onClick={togglePropertyInfo}
+                className='font-bold'
+                style={{
+                    textDecoration: 'underline',
+                    color: 'black',
+                    cursor: 'pointer',
+                    transition: 'color 0.3s ease', // Smooth transition effect
+                }}
+                >
+                <span>{showPropertyInfo ? 'Show more' : 'Show more'}</span>
+                </button>
+                <MdKeyboardArrowRight className='ml-1 mt-0.5' style={{ fontSize: "22px" }}/>
+            </div>
             </div>
            </div>
             <div>
@@ -403,6 +418,34 @@ const Detail = () => {
                         </div>
                     </div>
                 )}
+                <SecurityModal
+                isOpen={showPropertyInfo}
+                onClose={togglePropertyInfo}
+                title="Property and security"
+                items={[
+                    ...property.securityGuests.securityConditions
+                        .filter(security => security.allowed === 'allowed')
+                        .map(security => ({
+                            icon: renderIconByKeySecurity(security.name, security.allowed),
+                            name: security.name,
+                            securityName: 'Security considerations'
+                        })),
+                    ...property.securityGuests.securityDevices
+                        .filter(security => security.allowed === 'allowed')
+                        .map(security => ({
+                            icon: renderIconByKeySecurity(security.name, security.allowed),
+                            name: security.name,
+                            securityName: 'Security devices'
+                        })),
+                    ...property.securityGuests.propertyInfo
+                        .filter(security => security.allowed === 'allowed')
+                        .map(security => ({
+                            icon: renderIconByKeySecurity(security.name, security.allowed),
+                            name: security.name,
+                            securityName: 'Property information'
+                        }))
+                ]}
+            />
                 {showFullDescription && (
                     <div
                     style={{

@@ -37,11 +37,16 @@ export type WifiSchema = {
     password: string;
 }
 
-export type HouseRulesSchema = {
+export type BooleanSchema = {
     name: string;
     allowed: string;
 }
 
+export type securityGuestsSchema = {
+    securityConditions: BooleanSchema[];
+    securityDevices: BooleanSchema[];
+    propertyInfo: BooleanSchema[]; 
+} 
 
 export type PropertyType = {
     _id: string;
@@ -69,10 +74,11 @@ export type PropertyType = {
     checkInMethod: string;
     wifi: WifiSchema;
     houseManual: string;
-    houseRules: HouseRulesSchema[];
+    houseRules: BooleanSchema[];
     addedRule: string;
     noGuests: number;
     immediateBooking: boolean;
+    securityGuests: securityGuestsSchema;
     latitude: number;
     longitude: number;
     lastUpdated: Date;

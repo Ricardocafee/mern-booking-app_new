@@ -4,7 +4,7 @@ import { PropertyFormData } from "./ManagePropertyForm";
 import { useFormContext } from "react-hook-form";
 import BooleanIndicator from "../../components/BooleanIndicator";
 
-export type HouseRulesSchema = {
+export type booleanSchema = {
     name: string;
     allowed: string;
 }
@@ -36,7 +36,7 @@ const RulesSection = () => {
             const presentRules = formData.houseRules.filter(rule => rule.name !== name)
 
             if (presentRules.length === 0) {
-                const newRules: HouseRulesSchema = { name: "", allowed: "" };
+                const newRules: booleanSchema = { name: "", allowed: "" };
                 setValue("houseRules", [newRules]);
             } else {
                 setValue("houseRules", presentRules);
@@ -66,7 +66,7 @@ const RulesSection = () => {
                         <div className="text-gray-800 mr-10">
                             {rule}
                         </div>
-                        <BooleanIndicator selected={selectedRule} onSelect={handleSelectMethod} name={rule} houseRules={formData.houseRules}/>
+                        <BooleanIndicator selected={selectedRule} onSelect={handleSelectMethod} name={rule} booleanInd={formData.houseRules}/>
 
                     </label>
                 ))}

@@ -6,22 +6,22 @@ interface BooleanIndicatorProps {
     selected: string | null;
     onSelect: (value: string | null, name: string) => void; // Updated onSelect prop to allow null value
     name: string;
-    houseRules: { name: string; allowed: string }[];
+    booleanInd: { name: string; allowed: string }[];
 }
 
-const BooleanIndicator: React.FC<BooleanIndicatorProps> = ({ selected, onSelect, name, houseRules }) => {
+const BooleanIndicator: React.FC<BooleanIndicatorProps> = ({ selected, onSelect, name, booleanInd }) => {
     const [isAllowed, setIsAllowed] = useState<string | null>(null);
 
     useEffect(() => {
-        if (houseRules) {
-        const rule = houseRules.find(rule => rule.name === name);
+        if (booleanInd) {
+        const rule = booleanInd.find(rule => rule.name === name);
         if (rule) {
             setIsAllowed(rule.allowed);
         } else {
             setIsAllowed(null);
         }
         }
-    }, [houseRules, name]);
+    }, [booleanInd, name]);
 
     const handleToggle = (newValue: string | null) => {
         setIsAllowed(newValue);

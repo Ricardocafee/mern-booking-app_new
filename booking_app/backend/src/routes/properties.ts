@@ -291,6 +291,14 @@ function constructSearchQuery(queryParams: any) {
           : [queryParams.roomsDetails],
       };
     }
+
+    if(queryParams.securityGuests) {
+      constructedQuery.securityGuests = {
+        $all: Array.isArray(queryParams.securityGuests)
+          ? queryParams.securityGuests
+          : [queryParams.securityGuests],
+      };
+    }
   
     if (queryParams.type) {
 

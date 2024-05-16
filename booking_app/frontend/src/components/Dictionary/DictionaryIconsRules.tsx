@@ -1,5 +1,5 @@
 import React from "react";
-import "../effects/DiagLine.css";
+import "../../effects/DiagLine.css";
 import { MdOutlinePets } from "react-icons/md";
 import { LuPartyPopper } from "react-icons/lu";
 import { LuCigarette } from "react-icons/lu";

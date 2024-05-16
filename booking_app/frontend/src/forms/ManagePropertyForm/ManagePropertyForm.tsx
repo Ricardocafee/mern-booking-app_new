@@ -16,6 +16,7 @@ import WifiSection from "./WifiSection";
 import HouseManualSection from "./HouseManualSection";
 import RulesSection from "./RulesSection";
 import ImmediateBookSection from "./ImmediateBookSection";
+import SecuritySection from "./SecuritySection";
 
 export type RoomSchema = {
     type: string;
@@ -60,9 +61,15 @@ export type Wifi = {
     password: string;
 }
 
-export type HouseRules = {
+export type BooleanSchema = {
     name: string;
     allowed: string;
+}
+
+export type securityGuestsSchema = {
+    securityConditions: BooleanSchema[];
+    securityDevices: BooleanSchema[];
+    propertyInfo: BooleanSchema[];
 }
 
 export type PropertyFormData = {
@@ -93,10 +100,11 @@ export type PropertyFormData = {
     checkInMethod: string;
     wifi: Wifi;
     houseManual: string;
-    houseRules: HouseRules[];
+    houseRules: BooleanSchema[];
     addedRule: string | null ;
     immediateBooking: boolean;
     noGuests: number;
+    securityGuests: securityGuestsSchema;
 };
 
 type Props = {
@@ -163,6 +171,29 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
                 formData.append("wifi[password]", formDataJson.wifi.password);
             } else {
                 formData.append("wifi[password]", "null");
+            }
+        }
+
+        if (formDataJson.securityGuests) {
+            if (formDataJson.securityGuests.securityConditions) {
+                formDataJson.securityGuests.securityConditions.forEach((securityCond, index) => {
+                    formData.append(`securityGuests[securityConditions][${index}][name]`, securityCond.name);
+                    formData.append(`securityGuests[securityConditions][${index}][allowed]`, securityCond.allowed);
+                })
+            }
+
+            if (formDataJson.securityGuests.securityDevices) {
+                formDataJson.securityGuests.securityDevices.forEach((securityDev, index) => {
+                    formData.append(`securityGuests[securityDevices][${index}][name]`, securityDev.name);
+                    formData.append(`securityGuests[securityDevices][${index}][allowed]`, securityDev.allowed);
+                })
+            }
+
+            if (formDataJson.securityGuests.propertyInfo) {
+                formDataJson.securityGuests.propertyInfo.forEach((propertyInfo, index) => {
+                    formData.append(`securityGuests[propertyInfo][${index}][name]`, propertyInfo.name);
+                    formData.append(`securityGuests[propertyInfo][${index}][allowed]`, propertyInfo.allowed);
+                })
             }
         }
 
@@ -275,6 +306,7 @@ const ManagePropertyForm = ({onSave, isLoading, property}: Props) => {
                     <TypeSection/>
                     <RoomsSection/>
                     <FacilitiesSection/>
+                    <SecuritySection/>
                     <ImageSection/>
                     <MapSection/>
                 </div>
