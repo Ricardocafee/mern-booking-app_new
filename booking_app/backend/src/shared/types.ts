@@ -103,6 +103,8 @@ export type BookingType = {
     email: string;
     adultCount: number;
     childCount: number;
+    babyCount: number;
+    petCount: number;
     checkIn: Date;
     checkOut: Date;
     totalCost: number;

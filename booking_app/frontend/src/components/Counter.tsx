@@ -23,7 +23,7 @@ const Counter = ({ counter, setCounter}: CounterRoomProps) => {
         <div>
             <div style={{ display: "flex", alignItems: "center" }}>
                 <button type="button" onClick={handleClick2} style={{ marginRight: "10px" }}>
-                    <CiCircleMinus className={counter === 0 ? "circle-minus-disabled" : "circle-plus"} />
+                    <CiCircleMinus className={"circle-plus"} />
                 </button>
                 <div>{counter}</div>
                 <button type="button" onClick={handleClick1} style={{ marginLeft: "10px" }}>

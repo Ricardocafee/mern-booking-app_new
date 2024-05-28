@@ -54,6 +54,8 @@ const Booking = () => {
             checkOut={search.checkOut} 
             adultCount={search.adultCount} 
             childCount={search.childCount}
+            babyCount={search.babyCount}
+            petCount={search.petCount}
             numberOfNights={numberOfNights}
             property={property}
             />

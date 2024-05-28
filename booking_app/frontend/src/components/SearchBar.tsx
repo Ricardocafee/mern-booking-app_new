@@ -1,10 +1,12 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSearchContext } from "../contexts/SearchContext";
 import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import CounterRoom from "../components/Counter";
 
 
 const SearchBar = () => {
@@ -17,6 +19,30 @@ const SearchBar = () => {
     const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
     const [adultCount, setAdultCount] = useState<number>(search.adultCount);
     const [childCount, setChildCount] = useState<number>(search.childCount);
+    const [babyCount, setBabyCount] = useState<number>(search.babyCount);
+    const [petCount, setPetCount] = useState<number>(search.petCount);
+    const [isVisible, setIsVisible] = useState(false);
+
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible);
+    };
+
+    const guestsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (guestsRef.current && !guestsRef.current.contains(event.target as Node)) {
+                setIsVisible(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
@@ -25,7 +51,9 @@ const SearchBar = () => {
             checkIn, 
             checkOut, 
             adultCount, 
-            childCount
+            childCount,
+            babyCount,
+            petCount,
             );
         navigate("/search");
     };
@@ -40,37 +68,85 @@ const SearchBar = () => {
             <div className="flex flex-row items-center flex-1 bg-white p-2 rounded hover:shadow-md hover:border-yellow-500 border border-transparent transition">
                 <MdTravelExplore size={25} className="mr-2"/>
                 <input placeholder="Where are you going?" 
-                className="text-md w-full focus:outline-none"
+                className="text-md w-full focus:outline-none text-gray-500"
                 value={destination}
                 onChange={(event) => setDestination(event.target.value)}
                 />
             </div>
 
 
-            <div className="flex bg-white px-1 py-1 gap-1 rounded hover:shadow-md hover:border-yellow-500 border border-transparent transition">
+            <div className="relative flex bg-white px-1 py-1 gap-1 rounded hover:shadow-md hover:border-yellow-500 border border-transparent transition" onClick={toggleVisibility}>
             
-            <AiOutlineUser size={35} className=""/>
-                <label className="items-center flex">
-                    Adults:
-                    <input className="w-full p-1 focus:outline-none font-bold" 
-                    type="number" 
-                    min={1} 
-                    max={20} 
-                    value={adultCount}
-                    onChange={(event) => setAdultCount(parseInt(event.target.value))}
-                    />
-                </label>
-                <label className="items-center flex">
-                    Children:
-                    <input className="w-full p-1 focus:outline-none font-bold" 
-                    type="number" 
-                    min={0} 
-                    max={20} 
-                    value={childCount}
-                    onChange={(event) => setChildCount(parseInt(event.target.value))}
-                    />
-                </label>
+            <div ref={guestsRef} className="flex items-center min-w-full">
+            <AiOutlineUser size={32} className="mr-2 text-gray-700 cursor-pointer" />
+            <div className="text-gray-500 cursor-pointer">How many guests?</div>
+            <div className="ml-auto p-1 cursor-pointer">
+                {isVisible ? <FaAngleUp /> : <FaAngleDown />}
+                
             </div>
+            {isVisible && (
+                            <div className="absolute w-[310px] left-0 right-0 top-3 mt-8 bg-white border border-gray-300 rounded-xl p-4 z-50" onClick={(e) => e.stopPropagation()}>
+                                <div className="flex justify-between items-center mb-2">
+                                    <div>
+                                        <div className="font-semibold">
+                                            Adults
+                                        </div>
+                                        <div className="text-gray-700 text-sm font-semibold">
+                                            Age: over 13 years old
+                                        </div>
+                                    </div>
+                                    <CounterRoom
+                                        counter={adultCount || 0}
+                                        setCounter={(value) => setAdultCount(value)}
+                                    />
+                                 
+                                </div>
+                                <div className="flex justify-between items-center mb-2 mt-4">
+                                    <div>
+                                        <div className="font-semibold">
+                                            Children
+                                        </div>
+                                        <div className="text-gray-700 text-sm font-semibold">
+                                            Age between 2 and 12
+                                        </div>
+                                    </div>
+                                    <CounterRoom
+                                        counter={childCount || 0}
+                                        setCounter={(value) => setChildCount(value)}
+                                    />
+                                </div>
+                                <div className="flex justify-between items-center mb-2 mt-4">
+                                    <div>
+                                        <div className="font-semibold">
+                                            Babies
+                                        </div>
+                                        <div className="text-gray-700 text-sm font-semibold">
+                                            Less than 2 years
+                                        </div>
+                                    </div>
+                                    <CounterRoom
+                                        counter={babyCount || 0}
+                                        setCounter={(value) => setBabyCount(value)}
+                                    />
+                                </div>
+                                <div className="flex justify-between items-center mb-2 mt-4">
+                                    <div>
+                                        <div className="font-semibold">
+                                            Pets
+                                        </div>
+                                    </div>
+                                    <CounterRoom
+                                        counter={petCount || 0}
+                                        setCounter={(value) => setPetCount(value)}
+                                    />
+                                </div>
+                                 
+                            </div>)
+            }
+            </div>
+                
+            </div>
+            
             <div>
                 <DatePicker selected={checkIn} 
                 onChange={(date) => setCheckIn(date as Date)}

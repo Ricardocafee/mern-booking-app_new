@@ -192,7 +192,8 @@ function constructSearchQuery(queryParams: any) {
         $gte: parseInt(queryParams.childCount),
       };
     }
-  
+
+
     if (queryParams.facilities) {
       constructedQuery.facilities = {
         $all: Array.isArray(queryParams.facilities)

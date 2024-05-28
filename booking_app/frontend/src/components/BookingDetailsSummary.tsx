@@ -5,6 +5,8 @@ type Props = {
     checkOut: Date;
     adultCount: number;
     childCount: number;
+    babyCount: number;
+    petCount: number;
     numberOfNights: number;
     property: PropertyType;
 };
@@ -14,6 +16,8 @@ const BookingDetailsSummary = ({
     checkOut, 
     adultCount, 
     childCount, 
+    babyCount,
+    petCount,
     numberOfNights, 
     property,
 }: Props) => {
@@ -50,7 +54,7 @@ const BookingDetailsSummary = ({
         <div>
             Guests:
             <div className="font-bold">
-                {adultCount} adults & {childCount} children
+                {adultCount} adults & {childCount} children & {babyCount} babies & {petCount} pets
             </div>
         </div>
     </div>

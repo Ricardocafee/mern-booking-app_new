@@ -82,6 +82,7 @@ export const register = async (formData: RegisterFormData) => {
       body: PropertyFormData,
     });
 
+
     if(!response.ok){
       throw new Error("Failed to add property");
     }
@@ -119,9 +120,12 @@ export const register = async (formData: RegisterFormData) => {
       credentials: "include",
     });
 
-  if(!response.ok) {
-    throw new Error ("Failed to update Property");
-  }
+        console.log('Received formData:', propertyFormData);
+
+  if (!response.ok) {
+      const errorText = await response.text(); // Get the response body text for more details
+      throw new Error(`Failed to update Property: ${response.statusText} - ${errorText}`);
+    }
 
   return response.json();
   };

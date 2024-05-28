@@ -19,6 +19,8 @@ export type BookingFormData = {
     email: string;
     adultCount: number;
     childCount: number;
+    babyCount: number;
+    petCount: number;
     checkIn: string;
     checkOut: string;
     propertyId: string;
@@ -51,6 +53,8 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
             email: currentUser.email,
             adultCount: search.adultCount,
             childCount: search.childCount,
+            babyCount: search.babyCount,
+            petCount: search.petCount,
             checkIn: search.checkIn.toISOString(),
             checkOut: search.checkOut.toISOString(),
             propertyId: propertyId,

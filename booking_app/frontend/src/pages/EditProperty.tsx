@@ -47,6 +47,7 @@ const EditProperty = () => {
             propertyId && deleteProperty(propertyId);
         } else {
             // Call update mutation
+            console.log("Property form data", propertyFormData)
             updateProperty(propertyFormData);
         }
     }
