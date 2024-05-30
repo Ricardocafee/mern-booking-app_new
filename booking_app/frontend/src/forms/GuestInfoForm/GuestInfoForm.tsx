@@ -8,10 +8,16 @@ import { useEffect, useRef, useState } from "react";
 import CounterRoom from "../../components/Counter";
 import { useQuery } from "react-query";
 import * as apiClient from "../../api-client";
+import "../../effects/Calendar.css";
+
 
 type Props = {
     propertyId: string;
     pricePerNight: number;
+    checkInUpdatedDate: Date | null;
+    checkOutUpdatedDate: Date | null;
+    onCheckInChange: (date: Date | null) => void;
+    onCheckOutChange: (date: Date | null) => void;
 };
 
 type GuestInfoFormData = {
@@ -23,7 +29,7 @@ type GuestInfoFormData = {
     petCount: number;
 };
 
-const GuestInfoForm = ({ propertyId, pricePerNight }: Props) => {
+const GuestInfoForm = ({ propertyId, pricePerNight, checkInUpdatedDate, checkOutUpdatedDate, onCheckInChange, onCheckOutChange }: Props) => {
     const search = useSearchContext();
     const { isLoggedIn } = useAppContext();
     const navigate = useNavigate();
@@ -39,6 +45,29 @@ const GuestInfoForm = ({ propertyId, pricePerNight }: Props) => {
             petCount: search.petCount,
         }
     });
+
+    const onChangeUpCheckIn = (date: Date | null) => {  
+        if(date) {
+        setValue("checkIn", date)
+        onCheckInChange(date);
+
+        // Check if check-out date is before the new check-in date
+        if (checkOut && date > checkOut) {
+            const nextDay = new Date(date);
+            nextDay.setDate(nextDay.getDate() + 1);
+            setValue("checkOut", nextDay);
+            onCheckOutChange(nextDay);
+        }
+    }
+    }
+
+    const onChangeUpCheckOut = (date: Date | null) => {  
+        if(date) {
+            setValue("checkOut", date)
+            onCheckOutChange(date);
+        }
+    }
+    
 
     const { data: property } = useQuery("fetchPropertyById", () =>
         apiClient.fetchPropertyById(propertyId as string), {
@@ -124,6 +153,21 @@ const GuestInfoForm = ({ propertyId, pricePerNight }: Props) => {
         };
     }, []);
 
+    useEffect(() => {
+    if (checkInUpdatedDate) {
+      setValue("checkIn", checkInUpdatedDate);
+      onCheckInChange(checkInUpdatedDate);
+    }
+  }, [checkInUpdatedDate]);
+
+  useEffect(() => {
+    if (checkOutUpdatedDate) {
+      setValue("checkOut", checkOutUpdatedDate);
+      onCheckOutChange(checkOutUpdatedDate);
+    }
+  }, [checkOutUpdatedDate]);
+
+
     const blackBorderClass = borderVisible ? "border-black border-2" : "";
     let Petsname = "";
 
@@ -144,6 +188,12 @@ const GuestInfoForm = ({ propertyId, pricePerNight }: Props) => {
 
         setPetsAllowed(isAllowed);
     }, [property]);
+
+    const addDays = (date: Date, days: number) => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+};
 
     const calculateNights = () => {
         if (!checkIn || !checkOut) return 0;
@@ -169,13 +219,13 @@ const GuestInfoForm = ({ propertyId, pricePerNight }: Props) => {
                             <DatePicker
                                 selected={checkIn}
                                 required
-                                onChange={(date) => setValue("checkIn", date as Date)}
+                                onChange={onChangeUpCheckIn}
                                 selectsStart
                                 startDate={checkIn}
                                 endDate={checkOut}
                                 minDate={minDate}
                                 maxDate={maxDate}
-                                placeholderText="Check-In Date"
+                                placeholderText="Add date"
                                 className="bg-white ml-3 mb-2 pl-1 focus:outline-none cursor-pointer w-[94px]"
                                 wrapperClassName="w-23"
                                 id="checkInDatePicker"
@@ -189,14 +239,14 @@ const GuestInfoForm = ({ propertyId, pricePerNight }: Props) => {
                             <DatePicker
                                 selected={checkOut}
                                 required
-                                onChange={(date) => setValue("checkOut", date as Date)}
+                                onChange={onChangeUpCheckOut}
                                 selectsEnd
                                 startDate={checkIn}
                                 endDate={checkOut}
-                                minDate={minDate}
+                                minDate={checkIn ? addDays(checkIn, 1) : null}
                                 maxDate={maxDate}
-                                placeholderText="Check-Out Date"
-                                className="bg-white ml-3 mb-2 pl-1 focus:outline-none cursor-pointer w-[94px]"
+                                placeholderText="Add date"
+                                className="bg-white ml-3 mb-2 pl-1 focus:outline-none cursor-pointer w-[94px] rounded-xl"
                                 wrapperClassName="min-w-full"
                                 id="checkOutDatePicker"
                             />

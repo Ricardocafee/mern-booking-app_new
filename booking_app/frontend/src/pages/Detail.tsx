@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
 import GuestInfoForm from "../forms/GuestInfoForm/GuestInfoForm";
 import ImageFullScreen from "../components/ImageFullScreen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import ProjectDescription from "../components/PropertyDescription";
 import { IoMdStar } from "react-icons/io";
+import '../effects/Calendar.css'
 
 import { renderIconByKey } from "../components/Dictionary/DictionaryIcons";
 import { renderIconByKeyRule } from "../components/Dictionary/DictionaryIconsRules";
@@ -20,6 +21,10 @@ import { CiClock2 } from "react-icons/ci";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { TfiNotepad } from "react-icons/tfi";
 import SecurityModal from "../components/SecurityModal";
+import { useSearchContext } from "../contexts/SearchContext";
+import { useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "../effects/Calendar.css";
 
 
 const Detail = () => {
@@ -32,6 +37,61 @@ const Detail = () => {
     const [showPropertyInfo, setShowPropertyInfo] = useState(false);
 
 
+  const onChangeUp = (dates: [Date | null, Date | null] | null) => {
+    const [start, end] = dates || [null, null];
+    setStartDate(start);
+    if (start) {
+        setValue("checkIn", start)
+    }
+    setEndDate(end);
+    if (end) {
+        setValue("checkOut",end )
+    }
+  };
+
+    type GuestInfoFormData = {
+    checkIn: Date | null;
+    checkOut: Date | null;
+    adultCount: number;
+    childCount: number;
+    babyCount: number;
+    petCount: number;
+    };
+
+    const search = useSearchContext();
+
+    const { watch, setValue } = useForm<GuestInfoFormData>({
+        defaultValues: {
+            checkIn: search.checkIn,
+            checkOut: search.checkOut,
+            adultCount: search.adultCount,
+            childCount: search.childCount,
+            babyCount: search.babyCount,
+            petCount: search.petCount,
+        }
+    });
+
+    const [checkIn, setStartDate] = useState<Date | null>(watch("checkIn"));
+    const [checkOut, setEndDate] = useState<Date | null>(watch("checkOut"));
+
+     const handleCheckInChange = (date: Date | null) => {
+        setStartDate(date);
+    };
+
+    const handleCheckOutChange = (date: Date | null) => {
+        setEndDate(date);
+    };
+
+
+     // Update state when checkIn or checkOut changes elsewhere
+    useEffect(() => {
+        setStartDate(checkIn);
+        setEndDate(checkOut);
+    }, [checkIn, checkOut]);
+
+    const minDate = new Date();
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 1);
 
     const renderFacilityTypeLabel = (facilityType: string) => {
     if (facilityType === "BedroomLaundry") {
@@ -295,15 +355,38 @@ const Detail = () => {
                             </div>
                             <button className="mt-7 rounded-md border border-black p-3 font-semibold text-gray-900 hover:bg-gray-100 transition" onClick={toggleModal}>Show all {totalFacilities} facilities</button>
                             <div className="border-b border-gray-300 mt-10"></div>
+                             <div className="mt-8">
+                             <div className="font-bold text-xl mb-3">Check-in and check-out dates</div>
+                             <div className="font-semibold text-gray-700 mb-6">Add your trip details to get an accurate price</div>
+                              <DatePicker
+                            selected={checkIn}
+                            onChange={onChangeUp}
+                            minDate={minDate}
+                                maxDate={maxDate}
+                            startDate={checkIn}
+                            endDate={checkOut}
+                            selectsRange
+                            inline
+                            placeholderText="Check-In Date"
+                            monthsShown={2}
+                            id="custom-datepicker"
+                            />
+                            </div>
+                             
                         </div>
                         <div className="border h-fit sticky top-10 mt-12 shadow-xl rounded-md">
                             <div className="top-0 z-50 bg-white rounded-md">
-                                <GuestInfoForm pricePerNight={property.pricePerNight} propertyId={property._id} />
+                        
+                                <GuestInfoForm pricePerNight={property.pricePerNight} propertyId={property._id} checkInUpdatedDate={checkIn} checkOutUpdatedDate={checkOut} onCheckInChange={handleCheckInChange}
+                onCheckOutChange={handleCheckOutChange}/>
                             </div>
+                           
                         </div>
+                       
                     </div>
                 </div>
             </div>
+    
             <div>
             <div className="font-bold text-xl mb-5 mt-10">
                 Location
